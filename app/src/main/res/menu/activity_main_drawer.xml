@@ -3,4 +3,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+    <item
+        android:icon="@drawable/ic_filter_hdr_black_24dp"
+        android:title="@string/ZH">
+        <menu>
+            <item
+                android:icon="@drawable/ic_today_black_24dp"
+                android:title="@string/today" />
+            <item
+                android:icon="@drawable/ic_history_black_24dp"
+                android:title="@string/history" />
+        </menu>
+    </item>
+    <item
+        android:icon="@drawable/ic_filter_frames_black_24dp"
+        android:title="@string/CH">
+        <menu>
+            <item
+                android:icon="@drawable/ic_today_black_24dp"
+                android:title="@string/today" />
+            <item
+                android:icon="@drawable/ic_history_black_24dp"
+                android:title="@string/history" />
+        </menu>
+    </item>
+    <item android:title="@string/OtherItem">
+        <menu>
+            <item android:title="@string/ComputerWallpaper">
+
+            </item>
+            <item android:title="@string/Juzi" />
+            <item android:title="@string/BingDaily" />
+
+        </menu>
+    </item>
 </menu>

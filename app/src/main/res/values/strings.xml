@@ -8,4 +8,12 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="KeyWord">无人为孤岛，一图一世界</string>
+    <string name="CH">插画</string>
+    <string name="ZH">杂烩</string>
+    <string name="today">今日</string>
+    <string name="history">归档</string>
+    <string name="OtherItem">杂项</string>
+    <string name="ComputerWallpaper">电脑壁纸</string>
+    <string name="Juzi">句子</string>
+    <string name="BingDaily">必应日图</string>
 </resources>
