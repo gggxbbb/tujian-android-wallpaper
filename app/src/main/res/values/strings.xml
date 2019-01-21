@@ -16,4 +16,8 @@
     <string name="ComputerWallpaper">电脑壁纸</string>
     <string name="Juzi">句子</string>
     <string name="BingDaily">必应日图</string>
+    <string name="About">关于</string>
+    <string name="AboutSelf">关于本程序</string>
+    <string name="AboutProject">关于本项目</string>
+    <string name="nothing">暂无</string>
 </resources>

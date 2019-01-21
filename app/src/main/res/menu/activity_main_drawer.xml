@@ -8,9 +8,11 @@
         android:title="@string/ZH">
         <menu>
             <item
+                android:id="@+id/today_zh"
                 android:icon="@drawable/ic_today_black_24dp"
                 android:title="@string/today" />
             <item
+                android:id="@+id/history_zh"
                 android:icon="@drawable/ic_history_black_24dp"
                 android:title="@string/history" />
         </menu>
@@ -20,21 +22,45 @@
         android:title="@string/CH">
         <menu>
             <item
+                android:id="@+id/today_ch"
                 android:icon="@drawable/ic_today_black_24dp"
                 android:title="@string/today" />
             <item
+                android:id="@+id/history_ch"
                 android:icon="@drawable/ic_history_black_24dp"
                 android:title="@string/history" />
         </menu>
     </item>
     <item android:title="@string/OtherItem">
         <menu>
-            <item android:title="@string/ComputerWallpaper">
+            <item
+                android:id="@+id/compaper"
+                android:icon="@drawable/ic_computer_black_24dp"
+                android:title="@string/ComputerWallpaper">
 
             </item>
-            <item android:title="@string/Juzi" />
-            <item android:title="@string/BingDaily" />
+            <item
+                android:id="@+id/juzi"
+                android:icon="@drawable/ic_attachment_black_24dp"
+                android:title="@string/Juzi" />
+            <item
+                android:id="@+id/today_bing"
+                android:icon="@drawable/ic_camera_black_24dp"
+                android:title="@string/BingDaily" />
 
+        </menu>
+    </item>
+    <item android:title="@string/About">
+        <menu>
+            <item
+                android:id="@+id/thisapp"
+                android:icon="@drawable/ic_info_outline_black_24dp"
+                android:title="@string/AboutSelf" />
+            <item
+                android:id="@+id/thisproject"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/ic_info_black_24dp"
+                android:title="@string/AboutProject" />
         </menu>
     </item>
 </menu>

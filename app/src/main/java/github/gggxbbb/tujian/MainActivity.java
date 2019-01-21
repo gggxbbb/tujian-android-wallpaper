@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -79,7 +80,37 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        //侧栏点击事件
+        switch (id) {
+            case R.id.today_ch:
+                //今日插画
+                break;
+            case R.id.today_zh:
+                //今日杂烩
+                break;
+            case R.id.today_bing:
+                //今日必应
+                break;
+            case R.id.history_ch:
+                //插画归档
+                break;
+            case R.id.history_zh:
+                //杂烩归档
+                break;
+            case R.id.compaper:
+                //电脑壁纸
+                break;
+            case R.id.juzi:
+                //句子
+                break;
+            case R.id.thisapp:
+                //关于程序
+                break;
+            case R.id.thisproject:
+                break;
+            default:
+                Toast.makeText(MainActivity.this, R.string.nothing, Toast.LENGTH_LONG);
+        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
