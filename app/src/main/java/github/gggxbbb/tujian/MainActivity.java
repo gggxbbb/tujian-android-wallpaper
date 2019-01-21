@@ -12,10 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    TujianUtils.View tujianView = new TujianUtils.View();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        WebView webView = findViewById(R.id.webView);
+        tujianView.showCH(webView);
     }
 
     @Override
@@ -66,6 +72,7 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        //菜单栏点击事件
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -80,12 +87,15 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        WebView webView = findViewById(R.id.webView);
         //侧栏点击事件
         switch (id) {
             case R.id.today_ch:
+                tujianView.showCH(webView);
                 //今日插画
                 break;
             case R.id.today_zh:
+                tujianView.showCH(webView);
                 //今日杂烩
                 break;
             case R.id.today_bing:
