@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tujian</string>
+    <string name="Juzi">Chinese sayings</string>
+    <string name="BingDaily">Bing daily pictures</string>
+    <string name="About">About</string>
+    <string name="AboutSelf">About the App</string>
+    <string name="AboutProject">About the Project</string>
+    <string name="nothing">Nothing!</string>
+    <string name="load">Loading...</string>
+    <string name="loadf">Failed to load!</string>
+    <string name="loaddone">Load complete</string>
+    <string name="cancel">Cancel</string>
+    <string name="err">Wrong!</string>
+    <string name="knew">Done</string>
+    <string name="download">Download</string>
+    <string name="setwall">Set as wallpaper</string>
+    <string name="share">Share</string>
+    <string name="shareMessage">「%s」\nThe Information of the today\'s picture:\n%s\nDownload Link:\n%s \nFrom@Tujian</string>
+    <string name="ifDownload">Download?</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="KeyWord">No one is an island.\nA picture is a world</string>
+    <string name="CH">Anime Illustration</string>
+    <string name="ZH">Daily</string>
+    <string name="today">Today</string>
+    <string name="history">Archive</string>
+    <string name="ComputerWallpaper">Desktops Wallpapers</string>
+    <string name="OtherItem">Others</string>
+</resources>

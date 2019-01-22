@@ -1,11 +1,7 @@
 <resources>
     <string name="app_name">Tujian</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="KeyWord">无人为孤岛，一图一世界</string>
     <string name="CH">插画</string>
@@ -29,6 +25,6 @@
     <string name="download">下载</string>
     <string name="setwall">设为壁纸</string>
     <string name="share">分享</string>
-    <string name="shareMessage">%s\n\n%s\n\n链接：%s\n来自图鉴</string>
+    <string name="shareMessage">「%s」\n图片信息:\n%s\n下载链接：\n%s \n来自@图鉴</string>
     <string name="ifDownload">是否下载</string>
 </resources>
