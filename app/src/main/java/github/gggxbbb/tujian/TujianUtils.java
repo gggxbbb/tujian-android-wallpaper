@@ -13,10 +13,10 @@ public class TujianUtils {
         public void showBing(WebView webView){
             webView.loadUrl("https://dp.chimon.me/fapp/bing.php");
         }
-        public void showHitoryZH(WebView webView){
+        public void showHistoryZH(WebView webView){
             webView.loadUrl("https://dp.chimon.me/fapp/old.php?sort=杂烩");
         }
-        public void showHitoryCH(WebView webView){
+        public void showHistoryCH(WebView webView){
             webView.loadUrl("https://dp.chimon.me/fapp/old.php?sort=二次元");
         }
         public void showCom(WebView webView){
