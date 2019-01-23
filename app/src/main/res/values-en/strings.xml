@@ -16,14 +16,14 @@
     <string name="download">Download</string>
     <string name="setwall">Set as wallpaper</string>
     <string name="share">Share</string>
-    <string name="shareMessage">「%s」\nThe Information of the today\'s picture:\n%s\nDownload Link:\n%s \nFrom@Tujian</string>
+    <string name="shareMessage">「%s」\nThe Information of today\'s picture:\n%s\nDownload Link:\n%s \nFrom@Tujian</string>
     <string name="ifDownload">Download?</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="KeyWord">No one is an island.\nA picture is a world</string>
     <string name="CH">Anime Illustration</string>
-    <string name="ZH">Daily</string>
+    <string name="ZH">Photography</string>
     <string name="today">Today</string>
     <string name="history">Archive</string>
     <string name="ComputerWallpaper">Desktops Wallpapers</string>
