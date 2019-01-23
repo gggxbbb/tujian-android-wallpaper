@@ -250,11 +250,21 @@ public class MainActivity extends AppCompatActivity
                 //句子
                 break;
             case R.id.thisapp:
-                // TODO: 2019/1/21 显示应用程序关于 
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(R.string.About);
+                builder.setMessage(R.string.aboutAppMessage);
+                builder.setPositiveButton(R.string.knew, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.show();
                 //关于程序
                 break;
             case R.id.thisproject:
-                // TODO: 2019/1/21 显示项目介绍(使用activity)，支持跳转至网站 
+                Intent intent1 = new Intent(Intent.ACTION_VIEW,Uri.parse("https://dp.chimon.me"));
+                startActivity(intent1);
                 //关于项目
                 break;
             default:

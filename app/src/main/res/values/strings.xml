@@ -27,4 +27,5 @@
     <string name="share">分享</string>
     <string name="shareMessage">「%s」\n图片信息:\n%s\n下载链接：\n%s \n来自@图鉴</string>
     <string name="ifDownload">是否下载</string>
+    <string name="aboutAppMessage">这是一个第三方TujianApp，使用了Tujian提供的API接口。</string>
 </resources>
