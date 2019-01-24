@@ -13,6 +13,8 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import cc.shinichi.library.ImagePreview;
+
 public class HistoryActivity extends AppCompatActivity {
 
     @Override
@@ -39,23 +41,7 @@ public class HistoryActivity extends AppCompatActivity {
                 int type = result.getType();
                 if (type == WebView.HitTestResult.IMAGE_TYPE){
                     Log.d("Tujian", "onLongClick:长按图片 "+imgurl);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(HistoryActivity.this);
-                    builder.setTitle(R.string.ifDownload);
-                    builder.setMessage(imgurl);
-                    builder.setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(imgurl));
-                            startActivity(intent);
-                        }
-                    });
-                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    builder.show();
+                    ImagePreview.getInstance().setContext(HistoryActivity.this).setIndex(0).setImage(imgurl).start();
                 }
                 return true;
             }

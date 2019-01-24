@@ -2,12 +2,16 @@ package github.gggxbbb.tujian;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.WallpaperManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -22,16 +26,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 
 
 import java.io.IOException;
 
+import cc.shinichi.library.ImagePreview;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -41,8 +52,72 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TujianUtils.View tujianView = new TujianUtils.View();
-    String Sort;
+    //TujianUtils.View tujianView = new TujianUtils.View();
+    String img_Link;
+    String img_Title;
+    String img_Content;
+    boolean loadd = false;
+
+    protected void showImage(String sort) {
+        loadd = false;
+        String Link = "https://dp.chimon.me/api/today.php?sort=";
+        String ImgLink = "";
+        switch (sort) {
+            case "CH":
+                ImgLink = Link + "二次元";
+                break;
+            case "ZH":
+                ImgLink = Link + "杂烩";
+                break;
+        }
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder().url(ImgLink).method("GET", null).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Snackbar.make(findViewById(R.id.fab), R.string.loadf, Snackbar.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String htmlStr = response.body().string();
+                Log.d("Tujian", "onResponse: " + htmlStr);
+                JSONObject jsonObject = JSON.parseObject(htmlStr);
+                String ifok;
+                try {
+                    ifok = jsonObject.getString("status");
+                } catch (JSONException e) {
+                    ifok = "Unknown";
+                    e.printStackTrace();
+                }
+                if (ifok.equals("ok")) {
+                    try {
+                        JSONArray pictures = jsonObject.getJSONArray("pictures");
+                        JSONObject picture = pictures.getJSONObject(0);
+                        final String imgTitle = picture.getString("p_title");
+                        img_Title = imgTitle;
+                        final String imgLink = picture.getString("p_link");
+                        img_Link = imgLink;
+                        final String imgCont = picture.getString("p_content");
+                        img_Content = imgCont;
+                        loadd = true;
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                GlideApp.with(MainActivity.this).load(Uri.parse(imgLink)).into((ImageView) findViewById(R.id.today_show));
+                            }
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    String err = getResources().getString(R.string.loadf) + ifok;
+                    Snackbar.make(findViewById(R.id.fab), err, Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,91 +130,48 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String Link = "https://dp.chimon.me/api/today.php?sort=";
-                String ImgLink = "";
-                switch (Sort) {
-                    case "CH":
-                        ImgLink = Link + "二次元";
-                        break;
-                    case "ZH":
-                        ImgLink = Link + "杂烩";
-                        break;
+                if (loadd){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle(img_Title);
+                    builder.setMessage(img_Content);
+                    builder.setPositiveButton(R.string.knew, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.setNegativeButton(R.string.setwall, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Glide.with(MainActivity.this).asBitmap().load(Uri.parse(img_Link)).into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    WallpaperManager wallpaperManager = WallpaperManager.getInstance(MainActivity.this);
+                                    try {
+                                        wallpaperManager.setBitmap(resource);
+                                        Snackbar.make(findViewById(R.id.fab),R.string.setd,Snackbar.LENGTH_LONG).show();
+                                    }catch (IOException e){
+                                        Snackbar.make(findViewById(R.id.fab),R.string.setf,Snackbar.LENGTH_LONG).show();
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    builder.setNeutralButton(R.string.share, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String shareMessage=String.format(getResources().getString(R.string.shareMessage),img_Title,img_Content,img_Link);
+                            Intent intent = new Intent(Intent.ACTION_SEND);
+                            intent.setType("text/plain");
+                            intent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                            startActivity(intent);
+                        }
+                    });
+                    builder.show();
+                }else {
+                    Snackbar.make(findViewById(R.id.fab),R.string.load,Snackbar.LENGTH_LONG).show();
                 }
-                OkHttpClient okHttpClient = new OkHttpClient();
-                Request request = new Request.Builder().url(ImgLink).method("GET", null).build();
-                final Call call = okHttpClient.newCall(request);
-                Snackbar.make(view, R.string.load, Snackbar.LENGTH_SHORT).setAction(R.string.cancel, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        call.cancel();
-                    }
-                }).show();
-                call.enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                            Snackbar.make(findViewById(R.id.fab), R.string.loadf, Snackbar.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        final String htmlStr = response.body().string();
-                        Log.d("Tujian", "onResponse: " + htmlStr);
-                        JSONObject jsonObject = JSON.parseObject(htmlStr);
-                        String ifok;
-                        try {
-                            ifok = jsonObject.getString("status");
-                        } catch (JSONException e) {
-                            ifok = "Unknown";
-                            e.printStackTrace();
-                        }
-                        if (ifok.equals("ok")) {
-                            try {
-                                JSONArray pictures = jsonObject.getJSONArray("pictures");
-                                JSONObject picture = pictures.getJSONObject(0);
-                                final String imgTitle = picture.getString("p_title");
-                                final String imgLink = picture.getString("p_link");
-                                final String imgCont = picture.getString("p_content");
-                                Log.d("Tujian", "onResponse: title:" + imgTitle + ";link" + imgLink + ";cont" + imgCont);
-                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                                builder.setTitle(imgTitle);
-                                builder.setMessage(imgCont);
-                                builder.setPositiveButton(R.string.knew, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
-                                });
-                                builder.setNegativeButton(R.string.download, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(imgLink));
-                                        startActivity(intent);
-                                    }
-                                });
-                                builder.setNeutralButton(R.string.share, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        String shareMessage=String.format(getResources().getString(R.string.shareMessage),imgTitle,imgCont,imgLink);
-                                        Intent intent = new Intent(Intent.ACTION_SEND);
-                                        intent.setType("text/plain");
-                                        intent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                                        startActivity(intent);
-                                    }
-                                });
-                                Looper.prepare();
-                                builder.show();
-                                Looper.loop();
-                            } catch (JSONException e) {
-                                String err = getResources().getString(R.string.loadf) + ifok;
-                                Snackbar.make(findViewById(R.id.fab), err, Snackbar.LENGTH_LONG).show();
-                                e.printStackTrace();
-                            }
-                        } else {
-                            String err = getResources().getString(R.string.loadf) + ifok;
-                            Snackbar.make(findViewById(R.id.fab), err, Snackbar.LENGTH_LONG).show();
-                        }
-                    }
-                });
             }
         });
 
@@ -152,23 +184,20 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        WebView webView = findViewById(R.id.webView);
-        webView.setWebViewClient(new WebViewClient() {
 
+        ImageView imageView = findViewById(R.id.today_show);
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                Snackbar.make(findViewById(R.id.fab), R.string.load, Snackbar.LENGTH_LONG).show();
-                super.onPageStarted(view, url, favicon);
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                //Snackbar.make(findViewById(R.id.fab), R.string.loaddone, Snackbar.LENGTH_SHORT).show();
-                super.onPageFinished(view, url);
+            public boolean onLongClick(View v) {
+                ImagePreview.getInstance().setContext(MainActivity.this).setIndex(0).setImage(img_Link).start();
+                return false;
             }
         });
-        Sort = "CH";
-        tujianView.showCH(webView);
+
+
+
+        showImage("CH");
+        //tujianView.showCH(webView);
     }
 
     @Override
@@ -210,21 +239,20 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        WebView webView = findViewById(R.id.webView);
         Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
         //侧栏点击事件
         // TODO: 2019/1/21 加入“实验性功能”设置 
         switch (id) {
             case R.id.today_ch:
-                tujianView.showCH(webView);
+                //tujianView.showCH(webView);
+                showImage("CH");
                 Snackbar.make(findViewById(R.id.fab), R.string.load, Snackbar.LENGTH_SHORT).show();
-                Sort = "CH";
                 //今日插画
                 break;
             case R.id.today_zh:
-                tujianView.showZH(webView);
+                //tujianView.showZH(webView);
                 Snackbar.make(findViewById(R.id.fab), R.string.load, Snackbar.LENGTH_SHORT).show();
-                Sort = "ZH";
+                showImage("ZH");
                 //今日杂烩
                 break;
             case R.id.today_bing:
@@ -263,7 +291,7 @@ public class MainActivity extends AppCompatActivity
                 //关于程序
                 break;
             case R.id.thisproject:
-                Intent intent1 = new Intent(Intent.ACTION_VIEW,Uri.parse("https://dp.chimon.me"));
+                Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse("https://dp.chimon.me"));
                 startActivity(intent1);
                 //关于项目
                 break;

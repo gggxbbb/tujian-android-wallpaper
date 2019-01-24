@@ -29,4 +29,7 @@
     <string name="ComputerWallpaper">Desktops Wallpapers</string>
     <string name="OtherItem">Others</string>
     <string name="aboutAppMessage">This is a third-part App of Tujian Project,works by the API of Tujian Project.</string>
+    <string name="today_pic">Today</string>
+    <string name="setf">Failed</string>
+    <string name="setd">Done!</string>
 </resources>

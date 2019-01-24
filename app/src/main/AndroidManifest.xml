@@ -3,6 +3,8 @@
     package="github.gggxbbb.tujian">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -32,15 +34,13 @@
         </activity>
         <activity
             android:name=".HistoryActivity"
-            android:enabled="true"
             android:label="@string/history"
-            android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity"
-            android:process=":history">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity android:name=".BingActivity"></activity>
     </application>
 
 </manifest>
