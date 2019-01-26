@@ -33,7 +33,8 @@
                     android:id="@+id/today_show"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/today_pic" />
+                    android:contentDescription="@string/today_pic"
+                    android:scaleType="centerCrop" />
             </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>

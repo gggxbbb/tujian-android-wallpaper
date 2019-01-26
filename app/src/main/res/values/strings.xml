@@ -31,4 +31,5 @@
     <string name="today_pic">今日图片</string>
     <string name="setf">设置失败</string>
     <string name="setd">设置成功</string>
+    <string name="sh">快捷方式(设置壁纸)</string>
 </resources>

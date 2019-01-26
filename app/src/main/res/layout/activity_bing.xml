@@ -6,4 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".BingActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/bing_show"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/BingDaily"
+            android:scaleType="centerCrop" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/bing_show"
+            android:alpha="0.5"
+            app:cardBackgroundColor="@android:color/black">
+
+            <TextView
+                android:id="@+id/bing_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/mr_controller_volume_group_list_padding_top"
+                android:text="@string/load"
+                android:textAlignment="viewStart"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/mr_controller_volume_group_list_padding_top" />
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>

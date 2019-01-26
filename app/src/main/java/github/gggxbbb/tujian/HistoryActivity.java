@@ -3,6 +3,7 @@ package github.gggxbbb.tujian;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -32,6 +34,11 @@ public class HistoryActivity extends AppCompatActivity {
                 super.onPageFinished(view, url);
             }
         });
+
+        webView.getSettings().setBlockNetworkImage(false);
+        if (Build.VERSION.SDK_INT >= 21){
+            webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
 
         webView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -56,6 +63,10 @@ public class HistoryActivity extends AppCompatActivity {
             case "ZH":
                 showView.showHistoryZH(webView);
                 setTitle(R.string.ZH);
+                break;
+            case "CP":
+                showView.showCom(webView);
+                setTitle(R.string.ComputerWallpaper);
                 break;
             default:
                 finish();

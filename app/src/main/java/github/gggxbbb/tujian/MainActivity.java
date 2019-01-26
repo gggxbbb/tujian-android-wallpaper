@@ -1,15 +1,17 @@
 package github.gggxbbb.tujian;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -24,8 +26,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -34,9 +34,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 
@@ -53,12 +51,12 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     //TujianUtils.View tujianView = new TujianUtils.View();
-    String img_Link;
-    String img_Title;
-    String img_Content;
-    boolean loadd = false;
+    private String img_Link;
+    private String img_Title;
+    private String img_Content;
+    private boolean loadd = false;
 
-    protected void showImage(String sort) {
+    private void showImage(final String sort) {
         loadd = false;
         String Link = "https://dp.chimon.me/api/today.php?sort=";
         String ImgLink = "";
@@ -95,17 +93,23 @@ public class MainActivity extends AppCompatActivity
                     try {
                         JSONArray pictures = jsonObject.getJSONArray("pictures");
                         JSONObject picture = pictures.getJSONObject(0);
-                        final String imgTitle = picture.getString("p_title");
-                        img_Title = imgTitle;
+                        img_Title = picture.getString("p_title");
                         final String imgLink = picture.getString("p_link");
                         img_Link = imgLink;
-                        final String imgCont = picture.getString("p_content");
-                        img_Content = imgCont;
+                        img_Content = picture.getString("p_content");
                         loadd = true;
                         MainActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 GlideApp.with(MainActivity.this).load(Uri.parse(imgLink)).into((ImageView) findViewById(R.id.today_show));
+                                switch (sort) {
+                                    case "CH":
+                                        setTitle(R.string.CH);
+                                        break;
+                                    case "ZH":
+                                        setTitle(R.string.ZH);
+                                        break;
+                                }
                             }
                         });
                     } catch (JSONException e) {
@@ -197,6 +201,7 @@ public class MainActivity extends AppCompatActivity
 
 
         showImage("CH");
+
         //tujianView.showCH(webView);
     }
 
@@ -226,10 +231,7 @@ public class MainActivity extends AppCompatActivity
         //菜单栏点击事件
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
 
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -256,7 +258,7 @@ public class MainActivity extends AppCompatActivity
                 //今日杂烩
                 break;
             case R.id.today_bing:
-                // TODO: 2019/1/21 创建新的activity显示必应日图 
+                startActivity(new Intent(MainActivity.this,BingActivity.class));
                 //今日必应
                 break;
             case R.id.history_ch:
@@ -270,7 +272,8 @@ public class MainActivity extends AppCompatActivity
                 //杂烩归档
                 break;
             case R.id.compaper:
-                // TODO: 2019/1/21 创建新的activity显示电脑壁纸 
+                intent.putExtra("sort", "CP");
+                startActivity(intent);
                 //电脑壁纸
                 break;
             case R.id.juzi:
