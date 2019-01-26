@@ -2,6 +2,8 @@ package github.gggxbbb.tujian;
 
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
@@ -55,6 +57,56 @@ public class MainActivity extends AppCompatActivity
     private String img_Title;
     private String img_Content;
     private boolean loadd = false;
+
+
+    private void showJuZi(){
+        Snackbar.make(findViewById(R.id.fab), R.string.load, Snackbar.LENGTH_SHORT).show();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder().url("https://dp.chimon.me/api/hitokoto.php").method("GET", null).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Snackbar.make(findViewById(R.id.fab), R.string.loadf, Snackbar.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String htmlStr = response.body().string();
+                Log.d("Tujian", "onResponse: " + htmlStr);
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle(R.string.Juzi);
+                        builder.setMessage(htmlStr);
+                        builder.setPositiveButton(R.string.done_read, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        builder.setNegativeButton(R.string.nextJ, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                showJuZi();
+                            }
+                        });
+                        builder.setNeutralButton(R.string.copy, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ClipboardManager clipboardManager = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+                                ClipData clipData = ClipData.newPlainText("text",htmlStr );
+                                clipboardManager.setPrimaryClip(clipData);
+                                Snackbar.make(findViewById(R.id.fab), R.string.done_copy, Snackbar.LENGTH_LONG).show();
+                            }
+                        });
+                        builder.show();
+                    }
+                });
+            }
+        });
+    }
 
     private void showImage(final String sort) {
         loadd = false;
@@ -277,7 +329,7 @@ public class MainActivity extends AppCompatActivity
                 //电脑壁纸
                 break;
             case R.id.juzi:
-                // TODO: 2019/1/21 实现句子显示 
+                showJuZi();
                 //句子
                 break;
             case R.id.thisapp:
