@@ -32,4 +32,8 @@
     <string name="today_pic">Today</string>
     <string name="setf">Failed</string>
     <string name="setd">Done!</string>
+    <string name="nextJ">next</string>
+    <string name="done_read">done</string>
+    <string name="copy">copy</string>
+    <string name="done_copy">copyed</string>
 </resources>
