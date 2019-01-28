@@ -1,4 +1,4 @@
-package github.gggxbbb.tujian;
+package ml.cerasua.pics;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

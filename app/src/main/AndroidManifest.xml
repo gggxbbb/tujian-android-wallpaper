@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="github.gggxbbb.tujian">
+    package="ml.cerasua.pics.g">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="ml.cerasua.pics.g.MainActivity"
             android:alwaysRetainTaskState="true"
             android:stateNotNeeded="true"
             android:theme="@style/AppTheme.NoActionBar">
@@ -35,10 +35,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HistoryActivity"
+            android:name="ml.cerasua.pics.g.HistoryActivity"
             android:label="@string/history">
         </activity>
-        <activity android:name=".BingActivity" />
+        <activity android:name="ml.cerasua.pics.g.BingActivity" />
 
     </application>
 
