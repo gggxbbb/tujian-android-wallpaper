@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -23,7 +24,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -35,10 +40,12 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 
+import net.qiujuer.genius.blur.StackBlur;
+
 import java.io.IOException;
 
 import cc.shinichi.library.ImagePreview;
-import ml.cerasua.pics.GlideApp;
+import ml.cerasua.pics.g.GlideApp;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -53,9 +60,10 @@ public class MainActivity extends AppCompatActivity
     private String img_Title;
     private String img_Content;
     private boolean loadd = false;
+    String img_sort;
 
 
-    private void showJuZi(){
+    private void showJuZi() {
         Snackbar.make(findViewById(R.id.fab), R.string.load, Snackbar.LENGTH_SHORT).show();
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder().url("https://dp.chimon.me/api/hitokoto.php").method("GET", null).build();
@@ -91,8 +99,8 @@ public class MainActivity extends AppCompatActivity
                         builder.setNeutralButton(R.string.copy, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ClipboardManager clipboardManager = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-                                ClipData clipData = ClipData.newPlainText("text",htmlStr );
+                                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                                ClipData clipData = ClipData.newPlainText("text", htmlStr);
                                 clipboardManager.setPrimaryClip(clipData);
                                 Snackbar.make(findViewById(R.id.fab), R.string.done_read, Snackbar.LENGTH_LONG).show();
                             }
@@ -108,14 +116,23 @@ public class MainActivity extends AppCompatActivity
         loadd = false;
         String Link = "https://dp.chimon.me/api/today.php?sort=";
         String ImgLink = "";
-        switch (sort) {
-            case "CH":
-                ImgLink = Link + "二次元";
-                break;
-            case "ZH":
-                ImgLink = Link + "杂烩";
-                break;
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        if (sort == "SJ"){
+            ImgLink="https://dp.chimon.me/api/random.php?api=yes";
+        }else {
+            img_sort = sort;
+            getSharedPreferences("main", MODE_PRIVATE).edit().putString("sort", sort).apply();
+            switch (sort) {
+                case "CH":
+                    ImgLink = Link + "二次元";
+                    break;
+                case "ZH":
+                    ImgLink = Link + "杂烩";
+                    break;
+            }
         }
+        toolbar.setSubtitle(null);
+        setTitle(R.string.app_name);
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder().url(ImgLink).method("GET", null).build();
         Call call = okHttpClient.newCall(request);
@@ -149,7 +166,36 @@ public class MainActivity extends AppCompatActivity
                         MainActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                GlideApp.with(MainActivity.this).load(Uri.parse(imgLink)).into((ImageView) findViewById(R.id.today_show));
+                                GlideApp.with(MainActivity.this).asBitmap().load(Uri.parse(imgLink)).into(new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                        ImageView img_show = findViewById(R.id.today_show);
+                                        ImageView img_back = findViewById(R.id.show_back);
+                                        toolbar.setSubtitle(img_Title);
+
+                                        Palette.Builder builder = new Palette.Builder(resource);
+                                        builder.generate(new Palette.PaletteAsyncListener() {
+                                            @Override
+                                            public void onGenerated(@Nullable Palette palette) {
+                                                try {
+                                                    Palette.Swatch vibrant = palette.getVibrantSwatch();
+                                                    toolbar.setBackgroundColor(vibrant.getRgb());
+                                                    Window window = getWindow();
+                                                    window.setStatusBarColor(vibrant.getRgb());
+                                                    window.setNavigationBarColor(vibrant.getRgb());
+                                                }catch (NullPointerException e){
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+
+                                        Bitmap img_back_show = StackBlur.blur(resource, 20, false);
+                                        img_back.setImageBitmap(null);
+                                        img_back.setImageBitmap(img_back_show);
+                                        img_show.setImageBitmap(null);
+                                        img_show.setImageBitmap(resource);
+                                    }
+                                });
                                 switch (sort) {
                                     case "CH":
                                         setTitle(R.string.CH);
@@ -157,15 +203,31 @@ public class MainActivity extends AppCompatActivity
                                     case "ZH":
                                         setTitle(R.string.ZH);
                                         break;
+                                    case "SJ":
+                                        setTitle(R.string.SJ);
+                                        break;
                                 }
                             }
                         });
                     } catch (JSONException e) {
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                showImage("SJ");
+                            }
+                        });
+
                         e.printStackTrace();
                     }
                 } else {
-                    String err = getResources().getString(R.string.loadf) + ifok;
-                    Snackbar.make(findViewById(R.id.fab), err, Snackbar.LENGTH_LONG).show();
+                    //String err = getResources().getString(R.string.loadf) + ifok;
+                    //Snackbar.make(findViewById(R.id.fab), err, Snackbar.LENGTH_LONG).show();
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showImage("SJ");
+                        }
+                    });
                 }
             }
         });
@@ -175,6 +237,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        img_sort = getSharedPreferences("main", MODE_PRIVATE).getString("sort", "ZH");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -182,7 +245,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (loadd){
+                if (loadd) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle(img_Title);
                     builder.setMessage(img_Content);
@@ -201,9 +264,9 @@ public class MainActivity extends AppCompatActivity
                                     WallpaperManager wallpaperManager = WallpaperManager.getInstance(MainActivity.this);
                                     try {
                                         wallpaperManager.setBitmap(resource);
-                                        Snackbar.make(findViewById(R.id.fab),R.string.setd,Snackbar.LENGTH_LONG).show();
-                                    }catch (IOException e){
-                                        Snackbar.make(findViewById(R.id.fab),R.string.setf,Snackbar.LENGTH_LONG).show();
+                                        Snackbar.make(findViewById(R.id.fab), R.string.setd, Snackbar.LENGTH_LONG).show();
+                                    } catch (IOException e) {
+                                        Snackbar.make(findViewById(R.id.fab), R.string.setf, Snackbar.LENGTH_LONG).show();
                                         e.printStackTrace();
                                     }
                                 }
@@ -213,7 +276,7 @@ public class MainActivity extends AppCompatActivity
                     builder.setNeutralButton(R.string.share, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            String shareMessage=String.format(getResources().getString(R.string.shareMessage),img_Title,img_Content,img_Link);
+                            String shareMessage = String.format(getResources().getString(R.string.shareMessage), img_Title, img_Content, img_Link);
                             Intent intent = new Intent(Intent.ACTION_SEND);
                             intent.setType("text/plain");
                             intent.putExtra(Intent.EXTRA_TEXT, shareMessage);
@@ -221,8 +284,8 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
                     builder.show();
-                }else {
-                    Snackbar.make(findViewById(R.id.fab),R.string.load,Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(findViewById(R.id.fab), R.string.load, Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -247,8 +310,7 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-
-        showImage("CH");
+        showImage(img_sort);
 
         //tujianView.showCH(webView);
     }
@@ -291,7 +353,6 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
         //侧栏点击事件
-        // TODO: 2019/1/21 加入“实验性功能”设置 
         switch (id) {
             case R.id.today_ch:
                 //tujianView.showCH(webView);
@@ -306,7 +367,7 @@ public class MainActivity extends AppCompatActivity
                 //今日杂烩
                 break;
             case R.id.today_bing:
-                startActivity(new Intent(MainActivity.this,BingActivity.class));
+                startActivity(new Intent(MainActivity.this, BingActivity.class));
                 //今日必应
                 break;
             case R.id.history_ch:

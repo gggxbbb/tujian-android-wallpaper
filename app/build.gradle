@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "ml.cerasua.pics.r"
+        applicationId "ml.cerasua.pics.g"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
@@ -35,4 +35,5 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.8.0'
     implementation 'com.github.SherlockGougou:BigImageViewPager:v4_4.0.1'
+    implementation 'net.qiujuer.genius:blur:2.0.0'
 }

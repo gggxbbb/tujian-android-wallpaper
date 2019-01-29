@@ -10,8 +10,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INSTALL_SHORTCUT" />
-    <uses-permission android:name="android.permission.UNINSTALL_SHORTCUT"/>
 
     <application
         android:allowBackup="true"
@@ -26,7 +24,8 @@
             android:name="ml.cerasua.pics.g.MainActivity"
             android:alwaysRetainTaskState="true"
             android:stateNotNeeded="true"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +35,8 @@
         </activity>
         <activity
             android:name="ml.cerasua.pics.g.HistoryActivity"
-            android:label="@string/history">
+            android:label="@string/history"
+            android:screenOrientation="portrait">
         </activity>
         <activity android:name="ml.cerasua.pics.g.BingActivity" />
 

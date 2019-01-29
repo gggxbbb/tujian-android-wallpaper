@@ -35,5 +35,6 @@
     <string name="nextJ">next</string>
     <string name="done_read">done</string>
     <string name="copy">copy</string>
-    <string name="done_copy">copyed</string>
+    <string name="done_copy">done!</string>
+    <string name="SJ">random</string>
 </resources>
