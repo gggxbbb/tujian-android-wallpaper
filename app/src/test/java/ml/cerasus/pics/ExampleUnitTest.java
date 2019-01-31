@@ -1,4 +1,4 @@
-package ml.cerasua.pics;
+package ml.cerasus.pics;
 
 import org.junit.Test;
 

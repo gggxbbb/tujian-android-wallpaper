@@ -1,4 +1,4 @@
-package ml.cerasua.pics.g;
+package ml.cerasus.pics.g;
 
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
@@ -13,8 +13,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,11 +26,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -45,7 +44,6 @@ import net.qiujuer.genius.blur.StackBlur;
 import java.io.IOException;
 
 import cc.shinichi.library.ImagePreview;
-import ml.cerasua.pics.g.GlideApp;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -56,6 +54,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     //TujianUtils.View tujianView = new TujianUtils.View();
+    float y1, y2;
     private String img_Link;
     private String img_Title;
     private String img_Content;
@@ -117,9 +116,9 @@ public class MainActivity extends AppCompatActivity
         String Link = "https://dp.chimon.me/api/today.php?sort=";
         String ImgLink = "";
         final Toolbar toolbar = findViewById(R.id.toolbar);
-        if (sort == "SJ"){
-            ImgLink="https://dp.chimon.me/api/random.php?api=yes";
-        }else {
+        if (sort == "SJ") {
+            ImgLink = "https://dp.chimon.me/api/random.php?api=yes";
+        } else {
             img_sort = sort;
             getSharedPreferences("main", MODE_PRIVATE).edit().putString("sort", sort).apply();
             switch (sort) {
@@ -172,7 +171,7 @@ public class MainActivity extends AppCompatActivity
                                         ImageView img_show = findViewById(R.id.today_show);
                                         ImageView img_back = findViewById(R.id.show_back);
                                         toolbar.setSubtitle(img_Title);
-
+                                        final Window window = getWindow();
                                         Palette.Builder builder = new Palette.Builder(resource);
                                         builder.generate(new Palette.PaletteAsyncListener() {
                                             @Override
@@ -180,10 +179,17 @@ public class MainActivity extends AppCompatActivity
                                                 try {
                                                     Palette.Swatch vibrant = palette.getVibrantSwatch();
                                                     toolbar.setBackgroundColor(vibrant.getRgb());
-                                                    Window window = getWindow();
                                                     window.setStatusBarColor(vibrant.getRgb());
                                                     window.setNavigationBarColor(vibrant.getRgb());
-                                                }catch (NullPointerException e){
+                                                } catch (NullPointerException e) {
+                                                    try {
+                                                        Palette.Swatch vibrant = palette.getMutedSwatch();
+                                                        toolbar.setBackgroundColor(vibrant.getRgb());
+                                                        window.setStatusBarColor(vibrant.getRgb());
+                                                        window.setNavigationBarColor(vibrant.getRgb());
+                                                    } catch (NullPointerException ee) {
+                                                        ee.printStackTrace();
+                                                    }
                                                     e.printStackTrace();
                                                 }
                                             }
@@ -239,6 +245,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         img_sort = getSharedPreferences("main", MODE_PRIVATE).getString("sort", "ZH");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        NestedScrollView scro = findViewById(R.id.today_scro);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -310,6 +317,18 @@ public class MainActivity extends AppCompatActivity
         });
 
 
+        ImageView buttom_show = findViewById(R.id.show_his);
+        buttom_show.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                intent.putExtra("sort", img_sort);
+                intent.putExtra("anim", true);
+                startActivity(intent);
+                return false;
+            }
+        });
+
         showImage(img_sort);
 
         //tujianView.showCH(webView);
@@ -372,6 +391,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.history_ch:
                 intent.putExtra("sort", "CH");
+                intent.putExtra("mian_color", findViewById(R.id.toolbar).getDrawingCacheBackgroundColor());
                 startActivity(intent);
                 //插画归档
                 break;
@@ -415,5 +435,41 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Log.d("Tujian", "onTouchEvent: ");
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            Log.d("Tujian", "onTouchEvent: DOWN");
+            y1 = event.getY();
+        }
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            Log.d("Tujian", "onTouchEvent: UP");
+            y2 = event.getY();
+            if ((y2 - y1) > 200) {
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                intent.putExtra("anim", true);
+                intent.putExtra("sort", img_sort);
+                startActivity(intent);
+            }
+        }
+        Log.d("Tujian", "onTouchEvent: "+y1+";"+y2);
+        return true;
+    }
+
+    @Override
+    public void onLowMemory() {
+        Glide.get(MainActivity.this).clearMemory();
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        if(level == TRIM_MEMORY_UI_HIDDEN){
+            Glide.get(MainActivity.this).clearMemory();
+        }
+        Glide.get(MainActivity.this).trimMemory(level);
+        super.onTrimMemory(level);
     }
 }

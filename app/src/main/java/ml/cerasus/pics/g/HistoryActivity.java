@@ -1,4 +1,4 @@
-package ml.cerasua.pics.g;
+package ml.cerasus.pics.g;
 
 import android.content.Intent;
 import android.os.Build;
@@ -15,12 +15,21 @@ import cc.shinichi.library.ImagePreview;
 
 public class HistoryActivity extends AppCompatActivity {
 
+    boolean an = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         Intent intent = getIntent();
         String sort = intent.getStringExtra("sort");
+        an = intent.getBooleanExtra("anim", false);
+
+        if (an){
+            overridePendingTransition(R.anim.bottom_in, R.anim.buttom_out);
+        }
+
+
         TujianUtils.View showView = new TujianUtils.View();
         WebView webView = findViewById(R.id.webView_history);
         webView.setWebViewClient(new WebViewClient(){

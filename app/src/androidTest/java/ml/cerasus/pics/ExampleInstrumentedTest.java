@@ -1,4 +1,4 @@
-package ml.cerasua.pics;
+package ml.cerasus.pics;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

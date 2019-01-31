@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tujian</string>
+    <string name="app_name">Tujian R</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -27,7 +27,6 @@
     <string name="share">分享</string>
     <string name="shareMessage">「%s」\n图片信息:\n%s\n下载链接：\n%s \n来自@图鉴</string>
     <string name="ifDownload">是否下载</string>
-    <string name="aboutAppMessage">这是一个第三方TujianApp，使用了Tujian提供的API接口。</string>
     <string name="today_pic">今日图片</string>
     <string name="setf">设置失败</string>
     <string name="setd">设置成功</string>
@@ -36,4 +35,5 @@
     <string name="copy">复制</string>
     <string name="done_copy">已复制</string>
     <string name="SJ">随机</string>
+    <string name="aboutAppMessage">「无人为孤岛，一图一世界。」\n\n图鉴是一款简易的壁纸推荐软件有杂烩（摄影）、插画（二次元）以及电脑壁纸三个分类，均由人工从Pixiv,酷安, Unsplash等网站摘取而来。经过精细挑选，会更适合来用做壁纸。\n\n图鉴是我在「酷安日图」服务器关闭之后，用自己的业余时间构思的，心血之作。目前已经慢慢从最初漏洞百出的Beta1成长为了2.0。\n\n图鉴的每一张照片都是由我/其他维护者精选出来的。大概选一张足以收录至图鉴的照片需要20分钟+。所以，我衷心的感谢您，能够使用我的「图鉴」。\n\n本版本为图鉴开发组@Gadgetry 开发的Java版本，特此感谢。</string>
 </resources>

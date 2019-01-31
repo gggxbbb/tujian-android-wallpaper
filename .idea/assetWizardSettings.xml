@@ -145,7 +145,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/AndroidStudio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_info_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/AndroidStudio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_keyboard_arrow_up_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -156,7 +156,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_info_white_24dp" />
+                            <entry key="outputName" value="ic_keyboard_arrow_up_black_24dp" />
                             <entry key="sourceFile" value="C:\Users\gameg" />
                           </map>
                         </option>

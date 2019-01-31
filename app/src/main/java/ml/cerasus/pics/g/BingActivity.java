@@ -1,4 +1,4 @@
-package ml.cerasua.pics.g;
+package ml.cerasus.pics.g;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -75,5 +75,20 @@ public class BingActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    @Override
+    public void onLowMemory() {
+        Glide.get(BingActivity.this).clearMemory();
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        if(level == TRIM_MEMORY_UI_HIDDEN){
+            Glide.get(BingActivity.this).clearMemory();
+        }
+        Glide.get(BingActivity.this).trimMemory(level);
+        super.onTrimMemory(level);
     }
 }

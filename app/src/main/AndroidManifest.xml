@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ml.cerasua.pics.g">
+    package="ml.cerasus.pics.g">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -19,9 +19,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="ml.cerasua.pics.g.MainActivity"
+            android:name="ml.cerasus.pics.g.MainActivity"
             android:alwaysRetainTaskState="true"
             android:stateNotNeeded="true"
             android:theme="@style/AppTheme.NoActionBar"
@@ -34,11 +35,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="ml.cerasua.pics.g.HistoryActivity"
+            android:name="ml.cerasus.pics.g.HistoryActivity"
             android:label="@string/history"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name="ml.cerasua.pics.g.BingActivity" />
+        <activity android:name="ml.cerasus.pics.g.BingActivity" />
 
     </application>
 

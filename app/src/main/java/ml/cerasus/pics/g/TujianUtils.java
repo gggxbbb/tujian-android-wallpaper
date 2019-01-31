@@ -1,4 +1,4 @@
-package ml.cerasua.pics.g;
+package ml.cerasus.pics.g;
 
 import android.webkit.WebView;
 
