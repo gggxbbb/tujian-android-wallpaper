@@ -1,5 +1,6 @@
 package ml.cerasus.pics.g;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     boolean an = false;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
