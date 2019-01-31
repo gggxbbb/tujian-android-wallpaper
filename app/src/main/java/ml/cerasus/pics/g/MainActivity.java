@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -42,6 +41,7 @@ import com.bumptech.glide.request.transition.Transition;
 import net.qiujuer.genius.blur.StackBlur;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import cc.shinichi.library.ImagePreview;
 import okhttp3.Call;
@@ -54,12 +54,13 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     //TujianUtils.View tujianView = new TujianUtils.View();
-    float y1, y2;
+    private float y1;
+    private float y2;
     private String img_Link;
     private String img_Title;
     private String img_Content;
     private boolean loadd = false;
-    String img_sort;
+    private String img_sort;
 
 
     private void showJuZi() {
@@ -69,12 +70,13 @@ public class MainActivity extends AppCompatActivity
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Snackbar.make(findViewById(R.id.fab), R.string.loadf, Snackbar.LENGTH_LONG).show();
             }
 
+            @SuppressWarnings("ConstantConditions")
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 final String htmlStr = response.body().string();
                 Log.d("Tujian", "onResponse: " + htmlStr);
                 MainActivity.this.runOnUiThread(new Runnable() {
@@ -116,7 +118,7 @@ public class MainActivity extends AppCompatActivity
         String Link = "https://dp.chimon.me/api/today.php?sort=";
         String ImgLink = "";
         final Toolbar toolbar = findViewById(R.id.toolbar);
-        if (sort == "SJ") {
+        if (Objects.equals(sort, "SJ")) {
             ImgLink = "https://dp.chimon.me/api/random.php?api=yes";
         } else {
             img_sort = sort;
@@ -137,13 +139,13 @@ public class MainActivity extends AppCompatActivity
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Snackbar.make(findViewById(R.id.fab), R.string.loadf, Snackbar.LENGTH_LONG).show();
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String htmlStr = response.body().string();
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                final String htmlStr = Objects.requireNonNull(response.body()).string();
                 Log.d("Tujian", "onResponse: " + htmlStr);
                 JSONObject jsonObject = JSON.parseObject(htmlStr);
                 String ifok;
@@ -165,6 +167,7 @@ public class MainActivity extends AppCompatActivity
                         MainActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                //noinspection deprecation
                                 GlideApp.with(MainActivity.this).asBitmap().load(Uri.parse(imgLink)).into(new SimpleTarget<Bitmap>() {
                                     @Override
                                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -174,6 +177,7 @@ public class MainActivity extends AppCompatActivity
                                         final Window window = getWindow();
                                         Palette.Builder builder = new Palette.Builder(resource);
                                         builder.generate(new Palette.PaletteAsyncListener() {
+                                            @SuppressWarnings("ConstantConditions")
                                             @Override
                                             public void onGenerated(@Nullable Palette palette) {
                                                 try {
@@ -244,11 +248,11 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         img_sort = getSharedPreferences("main", MODE_PRIVATE).getString("sort", "ZH");
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        NestedScrollView scro = findViewById(R.id.today_scro);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        //NestedScrollView scro = findViewById(R.id.today_scro);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -265,6 +269,7 @@ public class MainActivity extends AppCompatActivity
                     builder.setNegativeButton(R.string.setwall, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            //noinspection deprecation
                             Glide.with(MainActivity.this).asBitmap().load(Uri.parse(img_Link)).into(new SimpleTarget<Bitmap>() {
                                 @Override
                                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -297,13 +302,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -336,7 +341,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -356,7 +361,7 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        //int id = item.getItemId();
         //菜单栏点击事件
 
         //noinspection SimplifiableIfStatement
@@ -367,7 +372,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
@@ -432,7 +437,7 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

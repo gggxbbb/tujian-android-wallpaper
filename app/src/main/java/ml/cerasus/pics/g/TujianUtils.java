@@ -3,6 +3,7 @@ package ml.cerasus.pics.g;
 import android.webkit.WebView;
 
 public class TujianUtils {
+    @SuppressWarnings("unused")
     public static class View {
         public void showZH(WebView webView){
             webView.loadUrl("https://dp.chimon.me/fapp/today.php?sort=杂烩");

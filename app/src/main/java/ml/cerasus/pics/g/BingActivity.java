@@ -2,6 +2,7 @@ package ml.cerasus.pics.g;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import cc.shinichi.library.ImagePreview;
 import okhttp3.Call;
@@ -36,13 +38,13 @@ public class BingActivity extends AppCompatActivity {
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Snackbar.make(show, R.string.loadf, Snackbar.LENGTH_LONG).show();
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String htmlStr = response.body().string();
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                final String htmlStr = Objects.requireNonNull(response.body()).string();
                 Log.d("Tujian", "onResponse: "+htmlStr);
                 final String img_url,img_cont,img_page;
                 img_url = htmlStr.split("【url】")[1];
