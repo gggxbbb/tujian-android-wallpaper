@@ -41,6 +41,7 @@ public class HistoryActivity extends AppCompatActivity {
         });
 
         webView.getSettings().setBlockNetworkImage(false);
+        webView.getSettings().setJavaScriptEnabled(true);
         if (Build.VERSION.SDK_INT >= 21){
             webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
