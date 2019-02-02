@@ -5,7 +5,8 @@
 
     <item
         android:icon="@drawable/ic_filter_hdr_black_24dp"
-        android:title="@string/ZH">
+        android:title="@string/ZH"
+        android:id="@+id/show_help_sidebar_1">
         <menu>
             <item
                 android:id="@+id/today_zh"
@@ -50,6 +51,19 @@
 
         </menu>
     </item>
+    <item android:title="@string/more">
+        <menu>
+            <item
+                android:id="@+id/tgbot"
+                android:icon="@drawable/telegram_logo"
+                android:title="@string/tgbot" />
+            <item
+                android:id="@+id/qqchat"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/qq"
+                android:title="@string/QQchat" />
+        </menu>
+    </item>
     <item android:title="@string/About">
         <menu>
             <item
@@ -61,6 +75,20 @@
                 android:layout_height="wrap_content"
                 android:icon="@drawable/ic_info_black_24dp"
                 android:title="@string/AboutProject" />
+        </menu>
+    </item>
+    <item android:title="@string/contributo"
+        android:visible="false">
+        <menu>
+            <item
+                android:id="@+id/p_list"
+                android:icon="@drawable/ic_supervisor_account_black_24dp"
+                android:title="@string/p_list" />
+            <item
+                android:id="@+id/joinus"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/ic_link_black_24dp"
+                android:title="@string/Join" />
         </menu>
     </item>
 </menu>

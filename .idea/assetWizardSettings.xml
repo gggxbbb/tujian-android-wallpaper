@@ -110,16 +110,13 @@
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="ffffff" />
                                       <entry key="foregroundImage" value="C:\Users\gameg\Pictures\EC8875F19D2732B44222D14D2817789E.png" />
+                                      <entry key="legacyIconShape" value="CIRCLE" />
+                                      <entry key="webIconShape" value="CIRCLE" />
                                     </map>
                                   </option>
                                 </PersistentState>
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>
@@ -145,7 +142,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/AndroidStudio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_keyboard_arrow_up_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/AndroidStudio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_link_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -155,9 +152,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_keyboard_arrow_up_black_24dp" />
-                            <entry key="sourceFile" value="C:\Users\gameg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="telegram_logo" />
+                            <entry key="sourceFile" value="C:\Users\gameg\Downloads\(Telegram_Logo)_SFont.CN.svg" />
                           </map>
                         </option>
                       </PersistentState>

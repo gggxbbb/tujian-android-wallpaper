@@ -6,8 +6,8 @@ android {
         applicationId "ml.cerasus.pics.g"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 10
-        versionName "1.0 Beta"
+        versionCode 11
+        versionName "1.1 Beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -36,4 +36,5 @@ dependencies {
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.8.0'
     implementation 'com.github.SherlockGougou:BigImageViewPager:v4_4.0.1'
     implementation 'net.qiujuer.genius:blur:2.0.0'
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.4.1'
 }

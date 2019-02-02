@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">图见</string>
+    <string name="app_name">Tujian R</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -8,15 +8,15 @@
     <string name="ZH">雜燴</string>
     <string name="today">今日</string>
     <string name="history">歸檔</string>
-    <string name="OtherItem">杂项</string>
-    <string name="ComputerWallpaper">电脑壁纸</string>
+    <string name="OtherItem">雜項</string>
+    <string name="ComputerWallpaper">电脑桌布</string>
     <string name="Juzi">句子</string>
     <string name="BingDaily">必应日图</string>
     <string name="About">关于</string>
     <string name="AboutSelf">关于本程序</string>
     <string name="AboutProject">关于本项目</string>
     <string name="nothing">沒有內容...</string>
-    <string name="load">加载中</string>
+    <string name="load">載入中</string>
     <string name="loaddone">加载完成</string>
     <string name="loadf">加载失败</string>
     <string name="cancel">取消</string>
@@ -36,4 +36,14 @@
     <string name="done_copy">已複製</string>
     <string name="aboutAppMessage">「无人为孤岛，一图一世界。」\n\n图鉴是一款简易的壁纸推荐软件有杂烩（摄影）、插画（二次元）以及电脑壁纸三个分类，均由人工从Pixiv,酷安, Unsplash等网站摘取而来。经过精细挑选，会更适合来用做壁纸。\n\n图鉴是我在「酷安日图」服务器关闭之后，用自己的业余时间构思的，心血之作。目前已经慢慢从最初漏洞百出的Beta1成长为了2.0。\n\n图鉴的每一张照片都是由我/其他维护者精选出来的。大概选一张足以收录至图鉴的照片需要20分钟+。所以，我衷心的感谢您，能够使用我的「图鉴」。\n\n本版本为图鉴开发组@Gadgetry 开发的Java版本，特此感谢。</string>
     <string name="SJ">随机</string>
+    <string name="more">更多</string>
+    <string name="contributo">貢獻者</string>
+    <string name="p_list">名單</string>
+    <string name="Join">加入我們</string>
+    <string name="tgbot">Telegram推送圖片服務</string>
+    <string name="QQchat">QQ討論組</string>
+    <string name="help">幫助</string>
+    <string name="HelpMessage">1.長安圖片以查看大圖或保存</string>
+    <string name="help_clickAndLong">點按此處來查看圖片信息，長安任意圖片來查看大圖或保存。主頁僅顯示本分類今日日圖。側欄中有更多分類及往日圖片。</string>
+    <string name="help_sidebar">歸檔界面為往日精選桌布集合，點按以進入查看。您可以點按此處以查看雜燴類別的内容。</string>
 </resources>

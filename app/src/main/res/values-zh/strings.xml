@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">图鉴</string>
+    <string name="app_name">Tujian R</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -36,4 +36,14 @@
     <string name="done_copy">已复制</string>
     <string name="SJ">随机</string>
     <string name="aboutAppMessage">「无人为孤岛，一图一世界。」\n\n图鉴是一款简易的壁纸推荐软件有杂烩（摄影）、插画（二次元）以及电脑壁纸三个分类，均由人工从Pixiv,酷安, Unsplash等网站摘取而来。经过精细挑选，会更适合来用做壁纸。\n\n图鉴是我在「酷安日图」服务器关闭之后，用自己的业余时间构思的，心血之作。目前已经慢慢从最初漏洞百出的Beta1成长为了2.0。\n\n图鉴的每一张照片都是由我/其他维护者精选出来的。大概选一张足以收录至图鉴的照片需要20分钟+。所以，我衷心的感谢您，能够使用我的「图鉴」。\n\n本版本为图鉴开发组@Gadgetry 开发的Java版本，特此感谢。</string>
+    <string name="more">更多</string>
+    <string name="contributo">贡献者</string>
+    <string name="p_list">名单</string>
+    <string name="Join">加入我们</string>
+    <string name="tgbot">TG推送图片服务</string>
+    <string name="QQchat">QQ讨论组</string>
+    <string name="help">帮助</string>
+    <string name="HelpMessage">1.长按图片以查看大图或保存</string>
+    <string name="help_clickAndLong">点按此处来查看图片信息，长按任意图片来查看大图或保存。主页仅显示本分类今日日图。侧栏中有更多分类及往日图片。</string>
+    <string name="help_sidebar">归档界面为往日的精选壁纸合集，点按进入查看。您可以点按此处以查看杂烩分类的内容。</string>
 </resources>
