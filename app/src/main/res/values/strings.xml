@@ -47,4 +47,6 @@
     <string name="HelpMessage">1.Click on the image anywhere for a while and you can see and download it with a big view.</string>
     <string name="help_clickAndLong">Click here to view the information of Today\'s Picture.In order to view more Calgarties, please swipe right.If you want to see The original image,press the picture for a few seconds and you will get it.</string>
     <string name="help_sidebar">You can view other Pictures in the Calgary Archive. As well,Anime works can be seen at the Calgry Photography.</string>
+    <string name="click_back">Press again to exit</string>
+    <string name="click_too_many">Too frequent!</string>
 </resources>

@@ -46,4 +46,6 @@
     <string name="HelpMessage">1.長安圖片以查看大圖或保存</string>
     <string name="help_clickAndLong">點按此處來查看圖片信息，長安任意圖片來查看大圖或保存。主頁僅顯示本分類今日日圖。側欄中有更多分類及往日圖片。</string>
     <string name="help_sidebar">歸檔界面為往日精選桌布集合，點按以進入查看。您可以點按此處以查看雜燴類別的内容。</string>
+    <string name="click_back">再按一次退出</string>
+    <string name="click_too_many">操作過度頻繁！</string>
 </resources>

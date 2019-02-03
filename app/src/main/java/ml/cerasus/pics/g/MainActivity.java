@@ -1,11 +1,13 @@
 package ml.cerasus.pics.g;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.Bitmap;
@@ -19,6 +21,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -47,10 +50,12 @@ import com.getkeepsafe.taptargetview.TapTargetView;
 import net.qiujuer.genius.blur.StackBlur;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import cc.shinichi.library.ImagePreview;
 import okhttp3.Call;
@@ -70,7 +75,88 @@ public class MainActivity extends AppCompatActivity
     private String img_sort;
     private int img_width;
     private int img_height;
+    private String img_pid = "";
+    double img_show_height, img_show_width;
+    private long click_back = 0;
 
+    private void loadImg(final String sort) {
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @SuppressWarnings("ConstantConditions")
+            @Override
+            public void run() {
+                switch (sort) {
+                    case "CH":
+                        getSupportActionBar().setTitle(R.string.CH);
+                        break;
+                    case "ZH":
+                        getSupportActionBar().setTitle(R.string.ZH);
+                        break;
+                    case "SJ":
+                        getSupportActionBar().setTitle(R.string.SJ);
+                        break;
+                }
+            }
+        });
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        if (img_width == 0 || img_height == 0) {
+            img_show_height = img_show_width = Target.SIZE_ORIGINAL;
+        } else {
+            img_show_width = findViewById(R.id.today_show).getWidth();
+            double img_show_time = img_show_width / img_width;
+            img_show_height = img_height * img_show_time;
+            Log.d("Tujian", "onResponse: 质量" + img_show_width + "/" + img_width + ";" + img_show_height + "/" + img_height + ":" + img_show_time);
+        }
+        final int img_show_width2 = (int) img_show_width;
+        final int img_show_height2 = (int) img_show_height;
+        loadd = true;
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //noinspection deprecation
+                GlideApp.with(MainActivity.this).asBitmap().load(Uri.parse(img_Link)).into(new SimpleTarget<Bitmap>(img_show_width2, img_show_height2) {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        Log.d("Tujian", "onResourceReady: " + resource.getWidth() + ";" + resource.getHeight());
+                        ImageView img_show = findViewById(R.id.today_show);
+                        ImageView img_back = findViewById(R.id.show_back);
+                        final Window window = getWindow();
+                        Palette.Builder builder = new Palette.Builder(resource);
+                        builder.generate(new Palette.PaletteAsyncListener() {
+                            @SuppressWarnings("ConstantConditions")
+                            @Override
+                            public void onGenerated(@Nullable Palette palette) {
+                                try {
+                                    Palette.Swatch vibrant = palette.getVibrantSwatch();
+                                    toolbar.setBackgroundColor(vibrant.getRgb());
+                                    window.setStatusBarColor(vibrant.getRgb());
+                                    window.setNavigationBarColor(vibrant.getRgb());
+                                } catch (NullPointerException e) {
+                                    try {
+                                        Palette.Swatch vibrant = palette.getMutedSwatch();
+                                        toolbar.setBackgroundColor(vibrant.getRgb());
+                                        window.setStatusBarColor(vibrant.getRgb());
+                                        window.setNavigationBarColor(vibrant.getRgb());
+                                    } catch (NullPointerException ee) {
+                                        ee.printStackTrace();
+                                    }
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                        Bitmap img_back_show = StackBlur.blur(resource, 20, false);
+                        img_back.setImageBitmap(null);
+                        img_back.setImageBitmap(img_back_show);
+                        img_show.setImageBitmap(null);
+                        img_show.setImageBitmap(resource);
+
+                        //noinspection ConstantConditions
+                        getSupportActionBar().setSubtitle(img_Title);
+                    }
+                });
+            }
+        });
+    }
 
     private void showJuZi() {
         Snackbar.make(findViewById(R.id.fab), R.string.load, Snackbar.LENGTH_SHORT).show();
@@ -126,6 +212,38 @@ public class MainActivity extends AppCompatActivity
         loadd = false;
         String Link = "https://dp.chimon.me/api/today.php?sort=";
         String ImgLink = "";
+        SharedPreferences sharedPreferences = getSharedPreferences(sort, MODE_PRIVATE);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        final String update_date = simpleDateFormat.format(new Date());
+        if (sharedPreferences.getBoolean("update", false)) {
+            if (Objects.requireNonNull(sharedPreferences.getString("update_date", "")).equals(update_date)) {
+                img_Title = sharedPreferences.getString("img_title", "");
+                img_Content = sharedPreferences.getString("img_cont", "");
+                img_Link = sharedPreferences.getString("img_link", "");
+                img_width = sharedPreferences.getInt("img_width", 0);
+                img_height = sharedPreferences.getInt("img_height", 0);
+                img_pid = sharedPreferences.getString("img_pid", "");
+                Log.d("Tujian", "showImage: 使用缓存数据");
+                Log.d("Tujian", "showImage: 图片信息\n" + img_Title + "\n" + img_Content + "\n" + img_Link + "\n" + img_width + ";" + img_height);
+                loadImg(sort);
+            } else {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Snackbar.make(findViewById(R.id.fab), R.string.load, Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        } else {
+            MainActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Snackbar.make(findViewById(R.id.fab), R.string.load, Snackbar.LENGTH_SHORT).show();
+                }
+            });
+        }
+
         final Toolbar toolbar = findViewById(R.id.toolbar);
         if (Objects.equals(sort, "SJ")) {
             ImgLink = "https://dp.chimon.me/api/random.php?api=yes";
@@ -166,83 +284,28 @@ public class MainActivity extends AppCompatActivity
                 }
                 if (ifok.equals("ok")) {
                     try {
-                        double img_show_height, img_show_width;
                         JSONArray pictures = jsonObject.getJSONArray("pictures");
                         JSONObject picture = pictures.getJSONObject(0);
-                        img_Title = picture.getString("p_title");
-                        final String imgLink = picture.getString("p_link");
-                        img_Link = imgLink;
-                        img_Content = picture.getString("p_content");
-                        img_width = picture.getIntValue("width");
-                        img_height = picture.getIntValue("height");
-                        Log.d("Tujian", "onResponse: 图片信息\n" + img_Title + "\n" + img_Content + "\n" + img_Link + "\n" + img_width + ";" + img_height);
-                        if (img_width == 0 || img_height == 0) {
-                            img_show_height = img_show_width = Target.SIZE_ORIGINAL;
-                        } else {
-                            img_show_width = findViewById(R.id.today_show).getWidth();
-                            double img_show_time = img_show_width / img_width;
-                            img_show_height = img_height * img_show_time;
-                            Log.d("Tujian", "onResponse: 质量" + img_show_width + ";" + img_show_height + ":" + img_show_time);
+                        String img_pid2 = picture.getString("PID");
+                        if (!img_pid.equals(img_pid2)) {
+                            img_Title = picture.getString("p_title");
+                            img_Link = picture.getString("p_link");
+                            img_Content = picture.getString("p_content");
+                            img_width = picture.getIntValue("width");
+                            img_height = picture.getIntValue("height");
+                            SharedPreferences.Editor editor = getSharedPreferences(sort, MODE_PRIVATE).edit();
+                            editor.putBoolean("update", true);
+                            editor.putString("img_title", img_Title);
+                            editor.putString("img_cont", img_Content);
+                            editor.putString("img_link", img_Link);
+                            editor.putString("img_pid", img_pid2);
+                            editor.putInt("img_width", img_width);
+                            editor.putInt("img_height", img_height);
+                            editor.putString("update_date", update_date);
+                            editor.apply();
+                            Log.d("Tujian", "onResponse: 图片信息\n" + img_Title + "\n" + img_Content + "\n" + img_Link + "\n" + img_width + ";" + img_height);
+                            loadImg(sort);
                         }
-                        final int img_show_width2 = (int) img_show_width;
-                        final int img_show_height2 = (int) img_show_height;
-                        loadd = true;
-                        MainActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //noinspection deprecation
-                                GlideApp.with(MainActivity.this).asBitmap().load(Uri.parse(imgLink)).into(new SimpleTarget<Bitmap>(img_show_width2, img_show_height2) {
-                                    @Override
-                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                        Log.d("Tujian", "onResourceReady: " + resource.getWidth() + ";" + resource.getHeight());
-                                        ImageView img_show = findViewById(R.id.today_show);
-                                        ImageView img_back = findViewById(R.id.show_back);
-                                        toolbar.setSubtitle(img_Title);
-                                        final Window window = getWindow();
-                                        Palette.Builder builder = new Palette.Builder(resource);
-                                        builder.generate(new Palette.PaletteAsyncListener() {
-                                            @SuppressWarnings("ConstantConditions")
-                                            @Override
-                                            public void onGenerated(@Nullable Palette palette) {
-                                                try {
-                                                    Palette.Swatch vibrant = palette.getVibrantSwatch();
-                                                    toolbar.setBackgroundColor(vibrant.getRgb());
-                                                    window.setStatusBarColor(vibrant.getRgb());
-                                                    window.setNavigationBarColor(vibrant.getRgb());
-                                                } catch (NullPointerException e) {
-                                                    try {
-                                                        Palette.Swatch vibrant = palette.getMutedSwatch();
-                                                        toolbar.setBackgroundColor(vibrant.getRgb());
-                                                        window.setStatusBarColor(vibrant.getRgb());
-                                                        window.setNavigationBarColor(vibrant.getRgb());
-                                                    } catch (NullPointerException ee) {
-                                                        ee.printStackTrace();
-                                                    }
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        });
-
-                                        Bitmap img_back_show = StackBlur.blur(resource, 20, false);
-                                        img_back.setImageBitmap(null);
-                                        img_back.setImageBitmap(img_back_show);
-                                        img_show.setImageBitmap(null);
-                                        img_show.setImageBitmap(resource);
-                                    }
-                                });
-                                switch (sort) {
-                                    case "CH":
-                                        setTitle(R.string.CH);
-                                        break;
-                                    case "ZH":
-                                        setTitle(R.string.ZH);
-                                        break;
-                                    case "SJ":
-                                        setTitle(R.string.SJ);
-                                        break;
-                                }
-                            }
-                        });
                     } catch (JSONException e) {
                         MainActivity.this.runOnUiThread(new Runnable() {
                             @Override
@@ -282,7 +345,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 if (loadd) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle(img_Title);
+                    builder.setTitle(img_Title+" ("+img_width+"*"+img_height+")");
                     builder.setMessage(img_Content);
                     builder.setPositiveButton(R.string.knew, new DialogInterface.OnClickListener() {
                         @Override
@@ -358,8 +421,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        showImage(img_sort);
-
+        imageView.post(new Runnable() {
+            @Override
+            public void run() {
+                showImage(img_sort);
+            }
+        });
         //tujianView.showCH(webView);
 
         if (!getSharedPreferences("first", MODE_PRIVATE).getBoolean("help_first", false)) {
@@ -399,7 +466,13 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (System.currentTimeMillis() - click_back > 2000) {
+                Snackbar.make(findViewById(R.id.fab), R.string.click_back, Snackbar.LENGTH_SHORT).show();
+                click_back = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
         }
     }
 
@@ -443,14 +516,20 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.today_ch:
                 //tujianView.showCH(webView);
-                showImage("CH");
-                Snackbar.make(findViewById(R.id.fab), R.string.load, Snackbar.LENGTH_SHORT).show();
+                if (loadd) {
+                    showImage("CH");
+                } else {
+                    Snackbar.make(findViewById(R.id.fab), R.string.click_too_many, Snackbar.LENGTH_SHORT).show();
+                }
                 //今日插画
                 break;
             case R.id.today_zh:
                 //tujianView.showZH(webView);
-                Snackbar.make(findViewById(R.id.fab), R.string.load, Snackbar.LENGTH_SHORT).show();
-                showImage("ZH");
+                if (loadd) {
+                    showImage("ZH");
+                } else {
+                    Snackbar.make(findViewById(R.id.fab), R.string.click_too_many, Snackbar.LENGTH_SHORT).show();
+                }
                 //今日杂烩
                 break;
             case R.id.today_bing:
@@ -512,6 +591,7 @@ public class MainActivity extends AppCompatActivity
 
         return true;
     }
+
 
     @Override
     public void onLowMemory() {

@@ -54,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/show_back"
             android:layout_marginBottom="@dimen/mr_controller_volume_group_list_item_icon_size"
-            app:srcCompat="@drawable/ic_group_collapse_00" />
+            app:srcCompat="@drawable/ic_group_collapse_00"
+            android:visibility="invisible"/>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
