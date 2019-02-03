@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity
                         JSONArray pictures = jsonObject.getJSONArray("pictures");
                         JSONObject picture = pictures.getJSONObject(0);
                         String img_pid2 = picture.getString("PID");
-                        if (!img_pid.equals(img_pid2)) {
+                        if (!img_pid.equals(img_pid2) && sort.equals(img_sort)) {
                             img_Title = picture.getString("p_title");
                             img_Link = picture.getString("p_link");
                             img_Content = picture.getString("p_content");
@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 if (loadd) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle(img_Title+" ("+img_width+"*"+img_height+")");
+                    builder.setTitle(img_Title + " (" + img_width + "*" + img_height + ")");
                     builder.setMessage(img_Content);
                     builder.setPositiveButton(R.string.knew, new DialogInterface.OnClickListener() {
                         @Override
@@ -424,7 +424,14 @@ public class MainActivity extends AppCompatActivity
         imageView.post(new Runnable() {
             @Override
             public void run() {
-                showImage(img_sort);
+                Intent intent = getIntent();
+                String sort;
+                sort = intent.getStringExtra("sort");
+                if (sort==null) {
+                    showImage(img_sort);
+                }else{
+                    showImage(sort);
+                }
             }
         });
         //tujianView.showCH(webView);
@@ -448,11 +455,41 @@ public class MainActivity extends AppCompatActivity
             List<ShortcutInfo> shortcutInfos = new ArrayList<>();
             ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
 
+            /*
             shortcutInfos.add(new ShortcutInfo.Builder(MainActivity.this, "bing")
                     .setShortLabel(getResources().getString(R.string.BingDaily))
                     .setLongLabel(getResources().getString(R.string.BingDaily))
                     .setIcon(Icon.createWithResource(MainActivity.this, R.drawable.ic_camera_black_24dp))
                     .setIntent(new Intent(MainActivity.this, BingActivity.class).setAction(Intent.ACTION_VIEW))
+                    .build());
+            */
+
+            shortcutInfos.add(new ShortcutInfo.Builder(MainActivity.this, "CH")
+                    .setShortLabel(getResources().getString(R.string.CH))
+                    .setLongLabel(getResources().getString(R.string.CH)+"-"+getResources().getString(R.string.today))
+                    .setIcon(Icon.createWithResource(MainActivity.this, R.drawable.ic_today_black_24dp))
+                    .setIntent(new Intent(MainActivity.this, MainActivity.class).setAction(Intent.ACTION_VIEW).putExtra("sort", "CH"))
+                    .build());
+
+            shortcutInfos.add(new ShortcutInfo.Builder(MainActivity.this, "ZH")
+                    .setShortLabel(getResources().getString(R.string.ZH))
+                    .setLongLabel(getResources().getString(R.string.ZH)+"-"+getResources().getString(R.string.today))
+                    .setIcon(Icon.createWithResource(MainActivity.this, R.drawable.ic_today_black_24dp))
+                    .setIntent(new Intent(MainActivity.this, MainActivity.class).setAction(Intent.ACTION_VIEW).putExtra("sort", "ZH"))
+                    .build());
+
+            shortcutInfos.add(new ShortcutInfo.Builder(MainActivity.this, "HZH")
+                    .setShortLabel(getResources().getString(R.string.ZH))
+                    .setLongLabel(getResources().getString(R.string.ZH)+"-"+getResources().getString(R.string.history))
+                    .setIcon(Icon.createWithResource(MainActivity.this, R.drawable.ic_history_black_24dp))
+                    .setIntent(new Intent(MainActivity.this, HistoryActivity.class).setAction(Intent.ACTION_VIEW).putExtra("sort", "ZH"))
+                    .build());
+
+            shortcutInfos.add(new ShortcutInfo.Builder(MainActivity.this, "HCH")
+                    .setShortLabel(getResources().getString(R.string.CH))
+                    .setLongLabel(getResources().getString(R.string.CH)+"-"+getResources().getString(R.string.history))
+                    .setIcon(Icon.createWithResource(MainActivity.this, R.drawable.ic_history_black_24dp))
+                    .setIntent(new Intent(MainActivity.this, HistoryActivity.class).setAction(Intent.ACTION_VIEW).putExtra("sort", "CH"))
                     .build());
 
             shortcutManager.setDynamicShortcuts(shortcutInfos);

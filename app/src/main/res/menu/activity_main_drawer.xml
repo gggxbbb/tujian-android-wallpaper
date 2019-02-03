@@ -47,7 +47,8 @@
             <item
                 android:id="@+id/today_bing"
                 android:icon="@drawable/ic_camera_black_24dp"
-                android:title="@string/BingDaily" />
+                android:title="@string/BingDaily"
+                android:visible="false"/>
 
         </menu>
     </item>
