@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity
                 GlideApp.with(MainActivity.this).asBitmap().load(Uri.parse(img_Link)).into(new SimpleTarget<Bitmap>(img_show_width2, img_show_height2) {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        getSharedPreferences("main", MODE_PRIVATE).edit().putString("sort", sort).apply();
                         Log.d("Tujian", "onResourceReady: " + resource.getWidth() + ";" + resource.getHeight());
                         ImageView img_show = findViewById(R.id.today_show);
                         ImageView img_back = findViewById(R.id.show_back);
@@ -256,7 +257,6 @@ public class MainActivity extends AppCompatActivity
             ImgLink = "https://dp.chimon.me/api/random.php?api=yes";
         } else {
             img_sort = sort;
-            getSharedPreferences("main", MODE_PRIVATE).edit().putString("sort", sort).apply();
             switch (sort) {
                 case "CH":
                     ImgLink = Link + "二次元";
