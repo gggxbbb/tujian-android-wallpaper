@@ -4,8 +4,8 @@
     <string name="Juzi">Chinese sayings</string>
     <string name="BingDaily">Bing daily pictures</string>
     <string name="About">About</string>
-    <string name="AboutSelf">About the App</string>
-    <string name="AboutProject">About the Project</string>
+    <string name="AboutSelf">About this App</string>
+    <string name="AboutProject">About this Project</string>
     <string name="nothing">Nothing!</string>
     <string name="load">Loading...</string>
     <string name="loadf">Failed to load!</string>

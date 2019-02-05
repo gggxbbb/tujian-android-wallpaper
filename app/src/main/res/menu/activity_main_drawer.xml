@@ -75,7 +75,8 @@
                 android:id="@+id/thisproject"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/ic_info_black_24dp"
-                android:title="@string/AboutProject" />
+                android:title="@string/AboutProject"
+                android:visible="false"/>
         </menu>
     </item>
     <item android:title="@string/contributo"
