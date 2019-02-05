@@ -6,8 +6,10 @@ import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -23,9 +25,16 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+        Toolbar toolbar = findViewById(R.id.app_bar_history);
+        setSupportActionBar(toolbar);
         Intent intent = getIntent();
         String sort = intent.getStringExtra("sort");
         an = intent.getBooleanExtra("anim", false);
+        int color = intent.getIntExtra("main_color", getResources().getColor(R.color.colorPrimary));
+        Window window = getWindow();
+        toolbar.setBackgroundColor(color);
+        window.setStatusBarColor(color);
+        window.setNavigationBarColor(color);
 
         if (an){
             overridePendingTransition(R.anim.bottom_in, R.anim.buttom_out);

@@ -75,8 +75,12 @@ public class MainActivity extends AppCompatActivity
     private int img_width;
     private int img_height;
     private String img_pid = "";
-    double img_show_height, img_show_width;
     private long click_back = 0;
+    private int color;
+
+    private void setColor(int color_input){
+        color = color_input;
+    }
 
     private void loadImg(final String sort) {
         MainActivity.this.runOnUiThread(new Runnable() {
@@ -97,6 +101,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
         final Toolbar toolbar = findViewById(R.id.toolbar);
+        double img_show_height;
+        double img_show_width;
         if (img_width == 0 || img_height == 0) {
             img_show_height = img_show_width = Target.SIZE_ORIGINAL;
         } else {
@@ -129,12 +135,14 @@ public class MainActivity extends AppCompatActivity
                                     toolbar.setBackgroundColor(vibrant.getRgb());
                                     window.setStatusBarColor(vibrant.getRgb());
                                     window.setNavigationBarColor(vibrant.getRgb());
+                                    setColor(vibrant.getRgb());
                                 } catch (NullPointerException e) {
                                     try {
                                         Palette.Swatch vibrant = palette.getMutedSwatch();
                                         toolbar.setBackgroundColor(vibrant.getRgb());
                                         window.setStatusBarColor(vibrant.getRgb());
                                         window.setNavigationBarColor(vibrant.getRgb());
+                                        setColor(vibrant.getRgb());
                                     } catch (NullPointerException ee) {
                                         ee.printStackTrace();
                                     }
@@ -581,18 +589,19 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.history_ch:
                 intent.putExtra("sort", "CH");
-                intent.putExtra("main_color", findViewById(R.id.toolbar).getDrawingCacheBackgroundColor());
+                intent.putExtra("main_color", color);
                 startActivity(intent);
                 //插画归档
                 break;
             case R.id.history_zh:
                 intent.putExtra("sort", "ZH");
-                intent.putExtra("main_color", findViewById(R.id.toolbar).getDrawingCacheBackgroundColor());
+                intent.putExtra("main_color", color);
                 startActivity(intent);
                 //杂烩归档
                 break;
             case R.id.compaper:
                 intent.putExtra("sort", "CP");
+                intent.putExtra("main_color", color);
                 startActivity(intent);
                 //电脑壁纸
                 break;
