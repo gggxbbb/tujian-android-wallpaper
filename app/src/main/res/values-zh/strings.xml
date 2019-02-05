@@ -43,7 +43,7 @@
     <string name="tgbot">TG推送图片服务</string>
     <string name="QQchat">QQ讨论组</string>
     <string name="help">帮助</string>
-    <string name="HelpMessage">1.长按图片以查看大图或保存</string>
+    <string name="HelpMessage">1.长按图片以查看大图或保存\n2.主页仅显示本分类今日日图。侧栏中有更多分类及往日图片。</string>
     <string name="help_clickAndLong">点按此处来查看图片信息，长按任意图片来查看大图或保存。主页仅显示本分类今日日图。侧栏中有更多分类及往日图片。</string>
     <string name="help_sidebar">归档界面为往日的精选壁纸合集，点按进入查看。您可以点按此处以查看杂烩分类的内容。</string>
     <string name="click_back">再按一次退出</string>

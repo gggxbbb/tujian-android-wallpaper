@@ -9,12 +9,12 @@
     <string name="today">今日</string>
     <string name="history">歸檔</string>
     <string name="OtherItem">雜項</string>
-    <string name="ComputerWallpaper">电脑桌布</string>
+    <string name="ComputerWallpaper">電腦桌布</string>
     <string name="Juzi">句子</string>
     <string name="BingDaily">必应日图</string>
-    <string name="About">关于</string>
-    <string name="AboutSelf">关于本程序</string>
-    <string name="AboutProject">关于本项目</string>
+    <string name="About">關於</string>
+    <string name="AboutSelf">關於本程序</string>
+    <string name="AboutProject">關於本项目</string>
     <string name="nothing">沒有內容...</string>
     <string name="load">載入中</string>
     <string name="loaddone">加载完成</string>
@@ -43,8 +43,8 @@
     <string name="tgbot">Telegram推送圖片服務</string>
     <string name="QQchat">QQ討論組</string>
     <string name="help">幫助</string>
-    <string name="HelpMessage">1.長安圖片以查看大圖或保存</string>
-    <string name="help_clickAndLong">點按此處來查看圖片信息，長安任意圖片來查看大圖或保存。主頁僅顯示本分類今日日圖。側欄中有更多分類及往日圖片。</string>
+    <string name="HelpMessage">1.長安圖片以查看大圖或存儲\n2.主頁僅顯示本分類今日日圖。側欄中有更多分類及往日圖片。</string>
+    <string name="help_clickAndLong">點按此處來查看圖片資訊，長安任意圖片來查看大圖或儲存。主頁僅顯示本分類今日日圖。側欄中有更多分類及往日圖片。</string>
     <string name="help_sidebar">歸檔界面為往日精選桌布集合，點按以進入查看。您可以點按此處以查看雜燴類別的内容。</string>
     <string name="click_back">再按一次退出</string>
     <string name="click_too_many">操作過度頻繁！</string>
