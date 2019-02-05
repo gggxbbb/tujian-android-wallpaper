@@ -66,7 +66,7 @@ public class HistoryActivity extends AppCompatActivity {
                 if (type == WebView.HitTestResult.IMAGE_TYPE){
                     Log.d("Tujian", "onLongClick:长按图片 "+imgurl);
                     assert imgurl != null;
-                    ImagePreview.getInstance().setContext(HistoryActivity.this).setIndex(0).setImage(imgurl).start();
+                    ImagePreview.getInstance().setContext(HistoryActivity.this).setIndex(0).setImage(imgurl).setFolderName("Pictures/Tujian").start();
                 }
                 return true;
             }

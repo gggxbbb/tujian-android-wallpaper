@@ -410,7 +410,7 @@ public class MainActivity extends AppCompatActivity
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ImagePreview.getInstance().setContext(MainActivity.this).setIndex(0).setImage(img_Link).start();
+                ImagePreview.getInstance().setContext(MainActivity.this).setIndex(0).setImage(img_Link).setFolderName("Pictures/Tujian").start();
                 return false;
             }
         });
