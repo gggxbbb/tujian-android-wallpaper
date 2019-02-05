@@ -474,35 +474,35 @@ public class MainActivity extends AppCompatActivity
             shortcutInfos.add(new ShortcutInfo.Builder(MainActivity.this, "CH")
                     .setShortLabel(getResources().getString(R.string.CH))
                     .setLongLabel(getResources().getString(R.string.CH)+"-"+getResources().getString(R.string.today))
-                    .setIcon(Icon.createWithResource(MainActivity.this, R.mipmap.ic_today))
+                    .setIcon(Icon.createWithResource(MainActivity.this, R.mipmap.ic_today_round))
                     .setIntent(new Intent(MainActivity.this, MainActivity.class).setAction(Intent.ACTION_VIEW).putExtra("sort", "CH"))
                     .build());
 
             shortcutInfos.add(new ShortcutInfo.Builder(MainActivity.this, "ZH")
                     .setShortLabel(getResources().getString(R.string.ZH))
                     .setLongLabel(getResources().getString(R.string.ZH)+"-"+getResources().getString(R.string.today))
-                    .setIcon(Icon.createWithResource(MainActivity.this, R.mipmap.ic_today))
+                    .setIcon(Icon.createWithResource(MainActivity.this, R.mipmap.ic_today_round))
                     .setIntent(new Intent(MainActivity.this, MainActivity.class).setAction(Intent.ACTION_VIEW).putExtra("sort", "ZH"))
                     .build());
 
             shortcutInfos.add(new ShortcutInfo.Builder(MainActivity.this, "HZH")
                     .setShortLabel(getResources().getString(R.string.ZH))
                     .setLongLabel(getResources().getString(R.string.ZH)+"-"+getResources().getString(R.string.history))
-                    .setIcon(Icon.createWithResource(MainActivity.this, R.mipmap.ic_history))
+                    .setIcon(Icon.createWithResource(MainActivity.this, R.mipmap.ic_history_round))
                     .setIntent(new Intent(MainActivity.this, HistoryActivity.class).setAction(Intent.ACTION_VIEW).putExtra("sort", "ZH"))
                     .build());
 
             shortcutInfos.add(new ShortcutInfo.Builder(MainActivity.this, "HCH")
                     .setShortLabel(getResources().getString(R.string.CH))
                     .setLongLabel(getResources().getString(R.string.CH)+"-"+getResources().getString(R.string.history))
-                    .setIcon(Icon.createWithResource(MainActivity.this, R.mipmap.ic_history))
+                    .setIcon(Icon.createWithResource(MainActivity.this, R.mipmap.ic_history_round))
                     .setIntent(new Intent(MainActivity.this, HistoryActivity.class).setAction(Intent.ACTION_VIEW).putExtra("sort", "CH"))
                     .build());
 
             shortcutInfos.add(new ShortcutInfo.Builder(MainActivity.this, "HCP")
                     .setShortLabel(getResources().getString(R.string.ComputerWallpaper))
                     .setLongLabel(getResources().getString(R.string.ComputerWallpaper))
-                    .setIcon(Icon.createWithResource(MainActivity.this, R.mipmap.ic_computer))
+                    .setIcon(Icon.createWithResource(MainActivity.this, R.mipmap.ic_computer_round))
                     .setIntent(new Intent(MainActivity.this, HistoryActivity.class).setAction(Intent.ACTION_VIEW).putExtra("sort", "CP"))
                     .build());
 
