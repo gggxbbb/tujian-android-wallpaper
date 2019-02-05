@@ -21,7 +21,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -161,7 +160,7 @@ public class MainActivity extends AppCompatActivity
     private void showJuZi() {
         Snackbar.make(findViewById(R.id.fab), R.string.load, Snackbar.LENGTH_SHORT).show();
         OkHttpClient okHttpClient = new OkHttpClient();
-        Request request = new Request.Builder().url("https://dp.chimon.me/api/hitokoto.php").method("GET", null).build();
+        Request request = new Request.Builder().url("http://yijuzhan.com/api/word.php").method("GET", null).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -582,12 +581,13 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.history_ch:
                 intent.putExtra("sort", "CH");
-                intent.putExtra("mian_color", findViewById(R.id.toolbar).getDrawingCacheBackgroundColor());
+                intent.putExtra("main_color", findViewById(R.id.toolbar).getDrawingCacheBackgroundColor());
                 startActivity(intent);
                 //插画归档
                 break;
             case R.id.history_zh:
                 intent.putExtra("sort", "ZH");
+                intent.putExtra("main_color", findViewById(R.id.toolbar).getDrawingCacheBackgroundColor());
                 startActivity(intent);
                 //杂烩归档
                 break;
