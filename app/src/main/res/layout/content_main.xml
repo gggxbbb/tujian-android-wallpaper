@@ -52,6 +52,7 @@
             android:id="@+id/show_his"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/mr_controller_volume_group_list_item_icon_size"
             android:layout_alignBottom="@+id/show_back"
             android:layout_marginBottom="@dimen/mr_controller_volume_group_list_item_icon_size"
             app:src="@drawable/ic_group_collapse_00" />

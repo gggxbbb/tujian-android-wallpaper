@@ -3,6 +3,7 @@ package github.gggxbbb;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
@@ -10,9 +11,10 @@ import android.widget.ImageView;
 @SuppressLint("AppCompatCustomView")
 public class MyImageViewf extends ImageView {
 
-    private float y, lastY;
-    private int top, bottom, s_y;
+    private float y;
+    private int top, bottom;
     private Runnable goH;
+    private boolean canGo = true;
 
     public MyImageViewf(Context context) {
         super(context);
@@ -32,20 +34,28 @@ public class MyImageViewf extends ImageView {
             case MotionEvent.ACTION_DOWN:
                 y = event.getY();
                 if (top == 0 && bottom == 0) {
-                    s_y = (int) event.getY();
                     top = getTop();
                     bottom = getBottom();
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
                 float offsetY = event.getY() - y;
-                Log.d("Tujian", "onTouchEvent: " + y + ";" + s_y);
-                layout(getLeft(), getTop() + (int) offsetY, getRight(), getBottom() + (int) offsetY);
+                Log.d("Tujian", "onTouchEvent: " + getBottom());
+                if (canGo)
+                    layout(getLeft(), getTop() + (int) offsetY, getRight(), getBottom() + (int) offsetY);
                 break;
             case MotionEvent.ACTION_UP:
-                goH.run();
                 layout(getLeft(), top, getRight(), bottom);
                 break;
+        }
+
+        if ((getBottom() < (bottom / 8 * 7)) && canGo) {
+            canGo = false;
+            layout(getLeft(), top, getRight(), bottom);
+            goH.run();
+        }
+        if (getBottom() == bottom) {
+            canGo = true;
         }
         return true;
     }
