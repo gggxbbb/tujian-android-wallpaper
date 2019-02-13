@@ -1,16 +1,18 @@
 package ml.cerasus.pics.g;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.WallpaperManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Build;
@@ -19,6 +21,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.view.View;
@@ -57,6 +60,8 @@ import java.util.Objects;
 import java.util.TimeZone;
 
 import cc.shinichi.library.ImagePreview;
+import github.gggxbbb.MyImageViewf;
+import github.gggxbbb.SetWallpaperHelper;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -67,6 +72,10 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     //TujianUtils.View tujianView = new TujianUtils.View();
+    private String[] APP_PERMISSION = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
     private String img_Link;
     private String img_Title;
     private String img_Content;
@@ -78,7 +87,7 @@ public class MainActivity extends AppCompatActivity
     private long click_back = 0;
     private int color;
 
-    private void setColor(int color_input){
+    private void setColor(int color_input) {
         color = color_input;
     }
 
@@ -224,7 +233,7 @@ public class MainActivity extends AppCompatActivity
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         final String update_date = simpleDateFormat.format(new Date());
-        if (sharedPreferences.getBoolean("update", false)) {
+        if (sharedPreferences.getBoolean("update", false) && (!sort.equals("SJ"))) {
             if (Objects.requireNonNull(sharedPreferences.getString("update_date", "")).equals(update_date)) {
                 img_Title = sharedPreferences.getString("img_title", "");
                 img_Content = sharedPreferences.getString("img_cont", "");
@@ -300,18 +309,22 @@ public class MainActivity extends AppCompatActivity
                             img_Content = picture.getString("p_content");
                             img_width = picture.getIntValue("width");
                             img_height = picture.getIntValue("height");
-                            SharedPreferences.Editor editor = getSharedPreferences(sort, MODE_PRIVATE).edit();
-                            editor.putBoolean("update", true);
-                            editor.putString("img_title", img_Title);
-                            editor.putString("img_cont", img_Content);
-                            editor.putString("img_link", img_Link);
-                            editor.putString("img_pid", img_pid2);
-                            editor.putInt("img_width", img_width);
-                            editor.putInt("img_height", img_height);
-                            editor.putString("update_date", update_date);
-                            editor.apply();
-                            Log.d("Tujian", "onResponse: 图片信息\n" + img_Title + "\n" + img_Content + "\n" + img_Link + "\n" + img_width + ";" + img_height);
-                            loadImg(sort);
+                            if (sort.equals("SJ")) {
+                                loadImg("SJ");
+                            } else {
+                                SharedPreferences.Editor editor = getSharedPreferences(sort, MODE_PRIVATE).edit();
+                                editor.putBoolean("update", true);
+                                editor.putString("img_title", img_Title);
+                                editor.putString("img_cont", img_Content);
+                                editor.putString("img_link", img_Link);
+                                editor.putString("img_pid", img_pid2);
+                                editor.putInt("img_width", img_width);
+                                editor.putInt("img_height", img_height);
+                                editor.putString("update_date", update_date);
+                                editor.apply();
+                                Log.d("Tujian", "onResponse: 图片信息\n" + img_Title + "\n" + img_Content + "\n" + img_Link + "\n" + img_width + ";" + img_height);
+                                loadImg(sort);
+                            }
                         }
                     } catch (JSONException e) {
                         MainActivity.this.runOnUiThread(new Runnable() {
@@ -362,11 +375,12 @@ public class MainActivity extends AppCompatActivity
                     });
                     builder.setNegativeButton(R.string.setwall, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog, final int which) {
                             //noinspection deprecation
                             Glide.with(MainActivity.this).asBitmap().load(Uri.parse(img_Link)).into(new SimpleTarget<Bitmap>() {
                                 @Override
                                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    /*
                                     WallpaperManager wallpaperManager = WallpaperManager.getInstance(MainActivity.this);
                                     try {
                                         wallpaperManager.setBitmap(resource);
@@ -374,6 +388,21 @@ public class MainActivity extends AppCompatActivity
                                     } catch (IOException e) {
                                         Snackbar.make(findViewById(R.id.fab), R.string.setf, Snackbar.LENGTH_LONG).show();
                                         e.printStackTrace();
+                                    }
+                                    */
+                                    SetWallpaperHelper setWallpaperHelper = new SetWallpaperHelper(MainActivity.this);
+                                    if (!setWallpaperHelper.forMIUI(resource)) {
+                                        if (!setWallpaperHelper.forEMUI(resource)) {
+                                            if (!setWallpaperHelper.byCropImage(resource)) {
+                                                if (!setWallpaperHelper.byChooseActivity(resource)) {
+                                                    if (!setWallpaperHelper.byWallpaperManager(resource)) {
+                                                        Snackbar.make(findViewById(R.id.fab), R.string.setf, Snackbar.LENGTH_LONG).show();
+                                                    } else {
+                                                        Snackbar.make(findViewById(R.id.fab), R.string.setd, Snackbar.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             });
@@ -416,7 +445,8 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        ImageView buttom_show = findViewById(R.id.show_his);
+        MyImageViewf buttom_show = findViewById(R.id.show_his);
+        /*
         buttom_show.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -427,6 +457,18 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
+        */
+        buttom_show.setGoH(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                intent.putExtra("sort", img_sort);
+                intent.putExtra("anim", true);
+                intent.putExtra("main_color", color);
+                startActivity(intent);
+            }
+        });
+        buttom_show.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_group_collapse_00));
 
         imageView.post(new Runnable() {
             @Override
@@ -434,9 +476,9 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = getIntent();
                 String sort;
                 sort = intent.getStringExtra("sort");
-                if (sort==null) {
+                if (sort == null) {
                     showImage(img_sort);
-                }else{
+                } else {
                     showImage(sort);
                 }
             }
@@ -473,28 +515,28 @@ public class MainActivity extends AppCompatActivity
 
             shortcutInfos.add(new ShortcutInfo.Builder(MainActivity.this, "CH")
                     .setShortLabel(getResources().getString(R.string.CH))
-                    .setLongLabel(getResources().getString(R.string.CH)+"-"+getResources().getString(R.string.today))
+                    .setLongLabel(getResources().getString(R.string.CH) + "-" + getResources().getString(R.string.today))
                     .setIcon(Icon.createWithResource(MainActivity.this, R.mipmap.ic_today_round))
                     .setIntent(new Intent(MainActivity.this, MainActivity.class).setAction(Intent.ACTION_VIEW).putExtra("sort", "CH"))
                     .build());
 
             shortcutInfos.add(new ShortcutInfo.Builder(MainActivity.this, "ZH")
                     .setShortLabel(getResources().getString(R.string.ZH))
-                    .setLongLabel(getResources().getString(R.string.ZH)+"-"+getResources().getString(R.string.today))
+                    .setLongLabel(getResources().getString(R.string.ZH) + "-" + getResources().getString(R.string.today))
                     .setIcon(Icon.createWithResource(MainActivity.this, R.mipmap.ic_today_round))
                     .setIntent(new Intent(MainActivity.this, MainActivity.class).setAction(Intent.ACTION_VIEW).putExtra("sort", "ZH"))
                     .build());
 
             shortcutInfos.add(new ShortcutInfo.Builder(MainActivity.this, "HZH")
                     .setShortLabel(getResources().getString(R.string.ZH))
-                    .setLongLabel(getResources().getString(R.string.ZH)+"-"+getResources().getString(R.string.history))
+                    .setLongLabel(getResources().getString(R.string.ZH) + "-" + getResources().getString(R.string.history))
                     .setIcon(Icon.createWithResource(MainActivity.this, R.mipmap.ic_history_round))
                     .setIntent(new Intent(MainActivity.this, HistoryActivity.class).setAction(Intent.ACTION_VIEW).putExtra("sort", "ZH"))
                     .build());
 
             shortcutInfos.add(new ShortcutInfo.Builder(MainActivity.this, "HCH")
                     .setShortLabel(getResources().getString(R.string.CH))
-                    .setLongLabel(getResources().getString(R.string.CH)+"-"+getResources().getString(R.string.history))
+                    .setLongLabel(getResources().getString(R.string.CH) + "-" + getResources().getString(R.string.history))
                     .setIcon(Icon.createWithResource(MainActivity.this, R.mipmap.ic_history_round))
                     .setIntent(new Intent(MainActivity.this, HistoryActivity.class).setAction(Intent.ACTION_VIEW).putExtra("sort", "CH"))
                     .build());
@@ -508,6 +550,13 @@ public class MainActivity extends AppCompatActivity
 
             shortcutManager.setDynamicShortcuts(shortcutInfos);
             Log.d("Tujian", "onCreate: shortcut");
+
+        }
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, APP_PERMISSION, 0);
+            }
         }
     }
 

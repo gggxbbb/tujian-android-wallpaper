@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:id="@+id/show_back" />
-        <android.support.v4.widget.NestedScrollView
+        <github.gggxbbb.MyScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/today_scro">
@@ -46,15 +46,14 @@
                         android:contentDescription="@string/today_pic" />
                 </android.support.v7.widget.CardView>
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </github.gggxbbb.MyScrollView>
 
-        <ImageView
+        <github.gggxbbb.MyImageViewf
             android:id="@+id/show_his"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/show_back"
             android:layout_marginBottom="@dimen/mr_controller_volume_group_list_item_icon_size"
-            app:srcCompat="@drawable/ic_group_collapse_00"
-            android:visibility="invisible"/>
+            app:src="@drawable/ic_group_collapse_00" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
