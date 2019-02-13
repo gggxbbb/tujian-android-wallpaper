@@ -48,4 +48,5 @@
     <string name="help_sidebar">歸檔界面為往日精選桌布集合，點按以進入查看。您可以點按此處以查看雜燴類別的内容。</string>
     <string name="click_back">再按一次退出</string>
     <string name="click_too_many">操作過度頻繁！</string>
+    <string name="openApp">打開Tujian R</string>
 </resources>

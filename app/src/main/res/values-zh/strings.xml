@@ -48,4 +48,5 @@
     <string name="help_sidebar">归档界面为往日的精选壁纸合集，点按进入查看。您可以点按此处以查看杂烩分类的内容。</string>
     <string name="click_back">再按一次退出</string>
     <string name="click_too_many">操作过度频繁！</string>
+    <string name="openApp">打开Tujian R</string>
 </resources>

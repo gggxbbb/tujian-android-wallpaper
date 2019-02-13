@@ -118,8 +118,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="240" />
-                                                <entry key="trimmed" value="true" />
+                                                <entry key="scalingPercent" value="33" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -131,11 +130,7 @@
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="ffffff" />
-                                      <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundAssetType" value="CLIP_ART" />
-                                      <entry key="foregroundImage" value="C:\Users\gameg\Pictures\EC8875F19D2732B44222D14D2817789E.png" />
-                                      <entry key="foregroundLayerName" value="ic_launcher_computer" />
-                                      <entry key="outputName" value="ic_computer" />
+                                      <entry key="foregroundImage" value="C:\Users\gameg\Pictures\Tujian.svg" />
                                       <entry key="showGrid" value="true" />
                                     </map>
                                   </option>
@@ -178,8 +173,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="telegram_logo" />
-                            <entry key="sourceFile" value="C:\Users\gameg\Downloads\(Telegram_Logo)_SFont.CN.svg" />
+                            <entry key="outputName" value="ic_tujian" />
+                            <entry key="sourceFile" value="C:\Users\gameg\Pictures\Tujian.svg" />
                           </map>
                         </option>
                       </PersistentState>
