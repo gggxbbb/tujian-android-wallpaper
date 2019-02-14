@@ -15,6 +15,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import cc.shinichi.library.ImagePreview;
+import github.gggxbbb.TujianUtils;
 
 public class HistoryActivity extends AppCompatActivity {
 

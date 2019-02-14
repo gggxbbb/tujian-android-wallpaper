@@ -50,4 +50,5 @@
     <string name="click_back">Press again to exit</string>
     <string name="click_too_many">Too frequent!</string>
     <string name="openApp">Launch Tujian P</string>
+    <string name="Libary">We used the following library:</string>
 </resources>

@@ -126,51 +126,54 @@ public class MainActivity extends AppCompatActivity
         MainActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                final ImageView img_show = findViewById(R.id.today_show);
+                final ImageView img_back = findViewById(R.id.show_back);
+                img_back.setImageBitmap(null);
+                img_show.setImageBitmap(null);
                 //noinspection deprecation
-                GlideApp.with(MainActivity.this).asBitmap().load(Uri.parse(img_Link)).into(new SimpleTarget<Bitmap>(img_show_width2, img_show_height2) {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        getSharedPreferences("main", MODE_PRIVATE).edit().putString("sort", sort).apply();
-                        Log.d("Tujian", "onResourceReady: " + resource.getWidth() + ";" + resource.getHeight());
-                        ImageView img_show = findViewById(R.id.today_show);
-                        ImageView img_back = findViewById(R.id.show_back);
-                        final Window window = getWindow();
-                        Palette.Builder builder = new Palette.Builder(resource);
-                        builder.generate(new Palette.PaletteAsyncListener() {
-                            @SuppressWarnings("ConstantConditions")
+                GlideApp.with(MainActivity.this)
+                        .asBitmap()
+                        .load(Uri.parse(img_Link))
+                        .into(new SimpleTarget<Bitmap>(img_show_width2, img_show_height2) {
                             @Override
-                            public void onGenerated(@Nullable Palette palette) {
-                                try {
-                                    Palette.Swatch vibrant = palette.getVibrantSwatch();
-                                    toolbar.setBackgroundColor(vibrant.getRgb());
-                                    window.setStatusBarColor(vibrant.getRgb());
-                                    window.setNavigationBarColor(vibrant.getRgb());
-                                    setColor(vibrant.getRgb());
-                                } catch (NullPointerException e) {
-                                    try {
-                                        Palette.Swatch vibrant = palette.getMutedSwatch();
-                                        toolbar.setBackgroundColor(vibrant.getRgb());
-                                        window.setStatusBarColor(vibrant.getRgb());
-                                        window.setNavigationBarColor(vibrant.getRgb());
-                                        setColor(vibrant.getRgb());
-                                    } catch (NullPointerException ee) {
-                                        ee.printStackTrace();
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                getSharedPreferences("main", MODE_PRIVATE).edit().putString("sort", sort).apply();
+                                Log.d("Tujian", "onResourceReady: " + resource.getWidth() + ";" + resource.getHeight());
+                                final Window window = getWindow();
+                                Palette.Builder builder = new Palette.Builder(resource);
+                                builder.generate(new Palette.PaletteAsyncListener() {
+                                    @SuppressWarnings("ConstantConditions")
+                                    @Override
+                                    public void onGenerated(@Nullable Palette palette) {
+                                        try {
+                                            Palette.Swatch vibrant = palette.getVibrantSwatch();
+                                            toolbar.setBackgroundColor(vibrant.getRgb());
+                                            window.setStatusBarColor(vibrant.getRgb());
+                                            window.setNavigationBarColor(vibrant.getRgb());
+                                            setColor(vibrant.getRgb());
+                                        } catch (NullPointerException e) {
+                                            try {
+                                                Palette.Swatch vibrant = palette.getMutedSwatch();
+                                                toolbar.setBackgroundColor(vibrant.getRgb());
+                                                window.setStatusBarColor(vibrant.getRgb());
+                                                window.setNavigationBarColor(vibrant.getRgb());
+                                                setColor(vibrant.getRgb());
+                                            } catch (NullPointerException ee) {
+                                                ee.printStackTrace();
+                                            }
+                                            e.printStackTrace();
+                                        }
                                     }
-                                    e.printStackTrace();
-                                }
+                                });
+
+                                Bitmap img_back_show = StackBlur.blur(resource, 20, false);
+                                img_back.setImageBitmap(img_back_show);
+                                img_show.setImageBitmap(resource);
+
+                                //noinspection ConstantConditions
+                                getSupportActionBar().setSubtitle(img_Title);
                             }
                         });
-
-                        Bitmap img_back_show = StackBlur.blur(resource, 20, false);
-                        img_back.setImageBitmap(null);
-                        img_back.setImageBitmap(img_back_show);
-                        img_show.setImageBitmap(null);
-                        img_show.setImageBitmap(resource);
-
-                        //noinspection ConstantConditions
-                        getSupportActionBar().setSubtitle(img_Title);
-                    }
-                });
             }
         });
     }
@@ -659,6 +662,7 @@ public class MainActivity extends AppCompatActivity
                 //句子
                 break;
             case R.id.thisapp:
+                /*
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle(R.string.About);
                 builder.setMessage(R.string.aboutAppMessage);
@@ -668,7 +672,16 @@ public class MainActivity extends AppCompatActivity
 
                     }
                 });
+                builder.setNeutralButton("Github", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/gggxbbb/tujian-android-wallpaper"));
+                        startActivity(intent1);
+                    }
+                });
                 builder.show();
+                */
+                startActivity(new Intent(MainActivity.this,AboutActivity.class).putExtra("main_color", color));
                 //关于程序
                 break;
             case R.id.thisproject:

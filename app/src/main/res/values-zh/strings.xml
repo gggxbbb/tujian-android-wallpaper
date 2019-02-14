@@ -49,4 +49,5 @@
     <string name="click_back">再按一次退出</string>
     <string name="click_too_many">操作过度频繁！</string>
     <string name="openApp">打开Tujian R</string>
+    <string name="Libary">我们使用了以下库：</string>
 </resources>

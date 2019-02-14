@@ -173,8 +173,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_tujian" />
-                            <entry key="sourceFile" value="C:\Users\gameg\Pictures\Tujian.svg" />
+                            <entry key="outputName" value="ic_github" />
+                            <entry key="sourceFile" value="C:\Users\gameg\Downloads\github.svg" />
                           </map>
                         </option>
                       </PersistentState>

@@ -1,4 +1,4 @@
-package ml.cerasus.pics.g;
+package github.gggxbbb;
 
 import android.webkit.WebView;
 

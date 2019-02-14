@@ -35,19 +35,7 @@ public class OpenAppTile extends TileService {
 
     @Override
     public void onClick() {
-        try {
-            @SuppressLint("WrongConstant")
-            Object tools = getSystemService("statusbar");
-            Method method;
-            @SuppressLint("PrivateApi")
-            Class<?> clazz = Class.forName("android.app.StatusBarManager");
-            method = clazz.getMethod("collapsePaneks");
-            method.setAccessible(true);
-            method.invoke(tools);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        startActivity(new Intent(OpenAppTile.this,MainActivity.class));
+        startActivity(new Intent(OpenAppTile.this,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         super.onClick();
     }
 }
